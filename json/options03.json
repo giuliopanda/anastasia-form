@@ -1,0 +1,44 @@
+{
+    "form" :
+    {
+        "render" : "",
+        "method" : "get",
+        "data-id" : "myId",
+        "default-wrap": {
+            "type": "group"
+        },
+
+        "name" : "myForm",
+        "fields" : 
+        [
+            {
+                "type": "checkbox",
+                "name": "provincia_da_funz01",
+                "label": "province da funzione (inline)",
+                "elements-layout": "inline",
+                "options-function": "get_optgroup_example_func"
+            },
+            {
+                "type": "checkbox",
+                "name": "provincia_da_funz02",
+                "label": "province da funzione (grid)",
+                "elements-layout": "grid-6",
+                "required":"true",
+                "options-function": "get_optgroup_example_func"
+            },
+            {
+                "type": "checkbox",
+                "name": "provincia_da_funz03",
+                "label": "province da funzione",
+                "options-function": "get_optgroup_example_func"
+            },
+            {
+                "type": "submit",
+                "class": "btn-primary",
+                "text": "invia"
+            }
+
+
+        ]
+    }
+}

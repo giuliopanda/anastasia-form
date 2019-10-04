@@ -1,0 +1,21 @@
+{
+    "form" :
+    {
+        "render" : "",
+        "method" : "get",
+        "default-wrap": {
+            "type": "group",
+            "layout": "horizontal_form"
+        },
+        "id" : "myForm",
+        "fields" : 
+        [
+            {
+                "type":"input",
+                "name":"field_name",
+                "label":"Campo",
+                "placeholder":"compila il campo"
+            }
+        ]
+    }
+}

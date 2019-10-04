@@ -1,0 +1,39 @@
+{
+    "form" :
+    {
+        "render" : "",
+        "method" : "get",
+        "default-wrap": {
+            "type": "group",
+            "layout": "horizontal_form"
+        },
+        "id" : "myForm",
+        "fields" : 
+        [
+            {
+                "type":"datepickerui",
+                "name":"data",
+                "label":"Data",
+                "placeholder":"dd-mm-yyyy",
+                "invalid":"Il formato del campo non è valido [dd-mm-yyyy]. Esempio 28-01-2001",
+                "date-format":"dd-mm-yy",
+                "col-field":"5"
+            },
+            {
+                "type":"datepickerui",
+                "name":"data2",
+                "label":"min e max",
+                "placeholder":"dd-mm-yyyy",
+                "invalid":"formato [dd-mm-yyyy]. Rispetta le date minime e massime",
+                "date-format":"dd-mm-yy",
+                "date-min": "2017-10-10 00:00:00",
+                "date-max": "+1M +10D"
+            },
+            {
+                "type": "submit",
+                "class": "btn-primary",
+                "text": "invia"
+            }
+        ]
+    }
+}

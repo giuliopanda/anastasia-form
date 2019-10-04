@@ -1,0 +1,84 @@
+{
+    "form" :
+    {
+        "render" : "",
+        "method" : "get",
+        "style" : {
+            "color":"#258",
+            "font-size":"16px"
+        },
+        "default-wrap": {
+            "type": "group",
+            "layout": "horizontal_form"
+        },
+
+        "id" : "required",
+        "fields" : 
+        [
+            {
+                "type": "checkbox",
+                "name": "checkbox-example01",
+                "label": "singolo",
+                "required":"true",
+                "invalid": "Seleziona un' opzione",
+                "options": [
+                    {
+                        "value": "1",
+                        "label": "opzione 1"
+                    }
+                ]
+            },
+            {
+                "type": "checkbox",
+                "name": "checkbox-example02",
+                "label": "multiplo",
+                "required": "true",
+                "invalid": "Seleziona almeno un'opzione",
+                "options":
+                [
+                    {
+                        "value": "1",
+                        "label": "opzione 1"
+                    },
+                    {
+                        "value": "2",
+                        "label": "opzione 2"
+                    },
+                    {
+                        "value": "3",
+                        "label": "opzione 3"
+                    }
+                ]
+               
+            }, 
+            {
+                "type": "checkbox",
+                "name": "checkbox-disabilitato",
+                "label": "disabilitato",
+                "required": "true",
+                "invalid": "Seleziona almeno un'opzione",
+                "options": [
+                    {
+                        "value": "1",
+                        "label": "opzione 1"
+                    },
+                    {
+                        "value": "2",
+                        "label": "opzione 2",
+                        "disabled" : "true"
+                    },
+                    {
+                        "value": "3",
+                        "label": "opzione 3"
+                    }
+                ]
+            },
+            
+            {
+                "type": "submit",
+                "class": "btn-primary",
+                "text": "invia"
+            }
+        ]
+    }
+}

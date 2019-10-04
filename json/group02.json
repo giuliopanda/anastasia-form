@@ -1,0 +1,33 @@
+{
+    "form" :
+    {
+        "render" : "",
+        "method" : "get",
+        "id" : "myForm3",
+        "fields" : 
+        [
+            {
+                "type": "group",
+                "layout": "",
+                "cols":["6","6"],
+                "title":"Titolo del gruppo",
+                "description":"descrizione del gruppo",
+                "footer":"footer",
+                "fields": [
+                    {
+                        "type": "input",
+                        "name": "field_name12",
+                        "label": "",
+                        "required": "true"
+                    },
+                    {
+                        "type": "input",
+                        "name": "field_name13",
+                        "label": "",
+                        "required": "true"
+                    }
+                ]
+            }
+        ]
+    }
+}

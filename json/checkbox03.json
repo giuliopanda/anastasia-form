@@ -1,0 +1,87 @@
+{
+    "form" :
+    {
+        "render" : "",
+        "method" : "get",
+        "style" : {
+            "color":"#258",
+            "font-size":"16px"
+        },
+        "default-wrap": {
+            "type": "group",
+            "layout": "horizontal_form"
+        },
+
+        "id" : "aligned",
+        "fields" : 
+        [
+            {
+                "type": "checkbox",
+                "name": "checkbox-example03",
+                "label": "Inline",
+                "elements-layout":"inline",
+                "options":
+                [
+                    {
+                        "value": "1",
+                        "label": "opzione 1"
+                    },
+                    {
+                        "value": "2",
+                        "label": "opzione 2"
+                    },
+                    {
+                        "value": "3",
+                        "label": "opzione 3"
+                    }
+                ]
+               
+            }, 
+            {
+                "type": "checkbox",
+                "name": "checkbox-colonne",
+                "label": "Cols",
+                "required": "true",
+                "elements-layout": "grid-4",
+                "invalid": "Seleziona almeno un'opzione",
+                "options": [
+                    {
+                        "value": "1",
+                        "label": "opzione 1"
+                    },
+                    {
+                        "value": "2",
+                        "label": "opzione 2"
+                    },
+                    {
+                        "value": "3",
+                        "label": "opzione 3"
+                    },
+                    {
+                        "value": "4",
+                        "label": "opzione 4"
+                    },
+                    {
+                        "value": "5",
+                        "label": "opzione 5"
+                    },
+                    {
+                        "value": "6",
+                        "label": "opzione 6"
+                    }
+                    ,
+                    {
+                        "value": "7",
+                        "label": "opzione 7"
+                    }
+                ]
+            },
+            
+            {
+                "type": "submit",
+                "class": "btn-primary",
+                "text": "invia"
+            }
+        ]
+    }
+}

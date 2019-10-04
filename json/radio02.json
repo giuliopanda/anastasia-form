@@ -1,0 +1,78 @@
+{
+    "form" :
+    {
+        "render" : "",
+        "method" : "get",
+        "style" : {
+            "color":"#258",
+            "font-size":"16px"
+        },
+        "default-wrap": {
+            "type": "group"
+        },
+
+        "id" : "required",
+        "fields" : 
+        [
+            {
+                "type": "radio",
+                "name": "radio-example01",
+                "label": "singolo",
+                "required":"true",
+                "invalid": "Seleziona un' opzione",
+                "options": [
+                    {
+                        "value": "1",
+                        "label": "opzione 1"
+                    }
+                ]
+            },
+            {
+                "type": "radio",
+                "name": "radio-onlyes",
+                "label": "con gp-validation",
+                "required": "true",
+                "gp-validation":"onlyyes",
+                "invalid": "Devi selezionare sì",
+                "options": [
+                    {
+                        "value": "1",
+                        "label": "Sì"
+                    },
+                    {
+                        "value": "0",
+                        "label": "No"
+                    }
+                ]
+            },
+            {
+                "type": "radio",
+                "name": "radio-disabilitato",
+                "label": "disabilitato",
+                "required": "true",
+                "invalid": "Seleziona almeno un'opzione",
+                "options": [
+                    {
+                        "value": "1",
+                        "label": "opzione 1"
+                    },
+                    {
+                        "value": "2",
+                        "label": "opzione 2",
+                        "disabled" : "true"
+                    },
+                    {
+                        "value": "3",
+                        "label": "opzione 3"
+                    }
+                ]
+            },
+            
+            {
+                "type": "submit",
+                "class": "btn-primary",
+                "text": "invia"
+            }
+        ]
+    }
+}

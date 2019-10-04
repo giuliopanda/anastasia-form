@@ -1,0 +1,57 @@
+{
+    "form" :
+    {
+        "render" : "",
+        "method" : "get",
+        "style" : {
+            "color":"#258",
+            "font-size":"16px"
+        },
+        "default-wrap": {
+            "type": "group",
+            "layout": "horizontal_form"
+        },
+
+        "id" : "cx",
+        "fields" : 
+        [
+            {
+                "type": "radio",
+                "name": "radio-example01",
+                "label": "singolo",
+                "options": [
+                    {
+                        "value": "1",
+                        "label": "opzione 1"
+                    }
+                ]
+            },
+            {
+                "type": "radio",
+                "name": "radio-example02",
+                "label": "multiplo",
+                "options":
+                [
+                    {
+                        "value": "1",
+                        "label": "opzione 1"
+                    },
+                    {
+                        "value": "2",
+                        "label": "opzione 2"
+                    },
+                    {
+                        "value": "3",
+                        "label": "opzione 3"
+                    }
+                ]
+               
+            },
+            {
+                "type": "submit",
+                "class": "btn-primary",
+                "text": "invia"
+            }
+        ]
+    }
+}

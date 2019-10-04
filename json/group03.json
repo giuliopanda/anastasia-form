@@ -1,0 +1,70 @@
+{
+    "form" :
+    {
+        "render" : "",
+        "method" : "get",
+        "id" : "myForm3",
+        "fields" : 
+        [
+            {
+                "type": "group",
+                "class":"custom_class",
+                "style":{"background":"#258","padding":"1.2rem 10px 0.2rem 10px"},
+                "fields": [
+                    {
+                        "type": "input",
+                        "name": "field_name12",
+                        "label": "",
+                        "required": "true"
+                    },
+                    {
+                        "type": "input",
+                        "name": "field_name13",
+                        "label": "",
+                        "required": "true"
+                    }
+                ]
+            },
+            {
+                "type": "group",
+                "class": "custom_class",
+                "title": "gruppo contenente",
+                "style": {
+                    "border": "1px solid #258",
+                    "padding": "1.2rem 10px 0.2rem 10px"
+                },
+                "fields": [
+                    {
+                        "type": "input",
+                        "name": "nome_campo",
+                        "label": "",
+                        "required": "true"
+                    },
+                    {
+                        "type": "group",
+                        "class": "custom_class",
+                        "title": "sottogruppo",
+                        "style": {
+                            "border": "1px solid #258",
+                            "padding": "1.2rem 10px 0.2rem 10px"
+                        },
+                        "fields": [
+                            {
+                                "type": "input",
+                                "name": "sub_field_name1",
+                                "label": "",
+                                "required": "true"
+                            },
+                            {
+                                "type": "input",
+                                "name": "sub_field_name2",
+                                "label": "",
+                                "required": "true"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}

@@ -1,0 +1,41 @@
+{
+    "form" :
+    {
+        "render" : "",
+        "method" : "get",
+        "default-wrap": {
+            "type": "group",
+            "layout": "horizontal_form",
+            "col-label":"4"
+        },
+        "id" : "myForm2",
+        "fields" : 
+        [
+            {
+                "type":"input",
+                "name":"field_name2",
+                "label":"Campo obbligatorio",
+                "required":"true"
+            },
+            {
+                "type": "input",
+                "name": "field_name3",
+                "label": "Campo disabilitato",
+                "placeholder": "compila il campo",
+                "disabled":"true"
+            },
+            {
+                "type": "password",
+                "name": "password",
+                "label": "password",
+                "col-label":"2",
+                "col-field":"5"
+            },
+            {
+                "type": "submit",
+                "class": "btn-primary",
+                "text": "invia"
+            }
+        ]
+    }
+}

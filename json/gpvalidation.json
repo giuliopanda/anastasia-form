@@ -1,0 +1,46 @@
+{
+    "form" :
+    {
+        "render" : "",
+        "method" : "get",
+        "default-wrap": {
+            "type": "group",
+            "layout": "horizontal_form",
+            "col-label":"6"
+        },
+        "id" : "myForm",
+        "fields" : 
+        [
+            {
+                "type":"input",
+                "name":"field_required",
+                "label":"validazione personalizzata",
+                "placeholder":"compila il campo",
+                "required":"true",
+                "gp-validation":"gpOnlyChar",
+                "invalid":"solo caratteri [a-zA-Z]"
+            },
+            {
+                "type": "input",
+                "name": "field_required",
+                "label": "tutto maiuscolo",
+                "placeholder": "compila il campo",
+                "gp-validation": "gpOnlyChar transformUpperCase",
+                "invalid": "solo [a-zA-Z]"
+            },
+            {
+                "type": "input",
+                "name": "field_validation3",
+                "label": "validazione multipla",
+                "placeholder": "compila il campo",
+                "gp-validation": "gpOnlyChar gp3CharUpperCase",
+                "invalid": "Solo caratteri, i primi tre maiuscoli"
+            },
+            {
+                "type":"submit",
+                "class": "btn-primary",
+                "text": "invia"
+            }
+        ]
+    }
+}

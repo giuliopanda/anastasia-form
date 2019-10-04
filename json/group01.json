@@ -1,0 +1,58 @@
+{
+    "form" :
+    {
+        "render" : "",
+        "method" : "get",
+        "id" : "myForm3",
+        "fields" : 
+        [
+            {
+                "type": "group",
+                "layout": "",
+                "cols":["4","3","2","3","6","6"],
+                "fields": [
+                    {
+                        "type": "input",
+                        "name": "field_name12",
+                        "label": "",
+                        "required": "true"
+                    },
+                    {
+                        "type": "input",
+                        "name": "field_name13",
+                        "label": "",
+                        "required": "true"
+                    },
+                    {
+                        "type": "input",
+                        "name": "field_name14",
+                        "label": "",
+                        "required": "true"
+                    },
+                    {
+                        "type": "input",
+                        "name": "field_name15",
+                        "label": "",
+                        "required": "true"
+                    },
+                    {
+                        "type": "input",
+                        "name": "field_name16",
+                        "label": "",
+                        "required": "true"
+                    },
+                    {
+                        "type": "input",
+                        "label":"ok",
+                        "layout":"horizontal_form",
+                        "name": "field_name17",
+                        "required": "true"
+                    }
+                ]
+            }
+            
+            
+           
+        ]
+    }
+}

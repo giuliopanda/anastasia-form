@@ -1,0 +1,100 @@
+{
+    "form" :
+    {
+        "render" : "",
+        "method" : "get",
+        "default-wrap": {
+            "type": "group",
+            "layout": "horizontal_form",
+            "col-label":"6"
+        },
+        "id" : "myForm",
+        "fields" : 
+        [
+            {
+                "type":"input",
+                "name":"field_required",
+                "label":"Campo",
+                "placeholder":"compila il campo",
+                "required":"true",
+                "invalid":"Il campo è obbligatorio"
+            },
+            {
+                "type": "input",
+                "name": "field_max",
+                "label": "MaxLength",
+                "placeholder": "compila il campo",
+                "maxlength": "20",
+                "invalid": "Il campo è obbligatorio"
+            },
+            {
+                "type": "input",
+                "name": "field_pattern",
+                "label": "Pattern da sei a 14 caratteri o niente",
+                "placeholder": "pattern",
+                "pattern": ".{6,14}",
+                "invalid": "Il campo è obbligatorio"
+            },
+            {
+                "type": "input",
+                "name": "field_pattern",
+                "label": "Pattern 3 o più, obbligatorio",
+                "placeholder": "pattern",
+                "pattern": ".{3,}",
+                "required":"true",
+                "invalid": "3 o più, obbligatorio"
+            },
+            {
+                "type": "input",
+                "name": "field_pattern",
+                "label": "Pattern per password forte",
+                "placeholder": "password",
+                "pattern": ".(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,}",
+                "required": "true",
+                "invalid": "Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
+            },
+            {
+                "type": "email",
+                "name": "Email",
+                "label": "Email",
+                "placeholder": "Email",
+                "pattern": "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}$",
+                "required": "true",
+                "invalid": "email con pattern"
+            },
+            {
+                "type": "url",
+                "name": "Url",
+                "label": "Url",
+                "placeholder": "https://",
+                "pattern": "https?://.+",
+                "required": "true",
+                "invalid": "url"
+            },
+
+            {
+                "type": "number",
+                "name": "numero",
+                "label": "numeri 0 - 99 non obbligatorio",
+                "min":"0",
+                "max":"99",
+                "invalid":"un numero da 0 a 99"
+            },
+            {
+                "type": "number",
+                "name": "num_float",
+                "label": "numero con virgola",
+                "min": "-9",
+                "max": "9",
+                "step":"0.001",
+                "required": "true",
+                "invalid": "un numero da 0 a 9"
+            },
+            {
+                "type": "submit",
+                "class": "btn-primary",
+                "text": "invia"
+            }
+        ]
+    }
+}

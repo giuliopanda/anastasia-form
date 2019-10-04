@@ -1,0 +1,125 @@
+{
+    "form" :
+    {
+        "render" : "",
+        "method" : "get",
+        "id" : "myForm3",
+        "fields" : 
+        [
+            {
+                "type": "group",
+                "layout": "inline",
+                "description":"INLINE",
+                "fields": [
+                    {
+                        "type": "input",
+                        "name": "inline_name1",
+                        "label": "label"
+                    },
+                    {
+                        "type": "input",
+                        "name": "inline_name2",
+                        "label": "label"
+                    },
+                    {
+                        "type": "input",
+                        "name": "inline_name3",
+                        "label": "label"
+                    }
+                ]
+            },
+            {
+                "type": "group",
+                "layout": "inline",
+                "layout-inline-class": "justify-content-between",
+                "description":"layout-inline-class",
+                "fields": [
+                    {
+                        "type": "button",
+                        "text": "button default"
+                    },
+                    {
+                        "type": "button",
+                        
+                        "text": "button primary",
+                        "class":"btn-primary"
+                    },
+                    {
+                        "type": "button",
+                       
+                        "text": "button warning",
+                        "class": "btn-warning"
+                        
+                    },
+                    {
+                        "type": "button",
+                        "text": "button success",
+                        "class": "btn-success"
+                    },
+                    {
+                        "type": "button",
+                        "text": "button outline",
+                        "class": "btn-outline-danger"
+                    }
+                ]
+            },
+            {
+                "type": "group",
+                "layout": "inline",
+                "description": "INLINE",
+                "fields": [
+                    {
+                        "type": "input",
+                        "name": "inline_name1",
+                        "label": "label",
+                        "required": "true",
+                        "invalid":"campo obbligatorio"
+                    },
+                    {
+                        "type": "checkbox",
+                        "name": "checkbox_name_inli",
+                        "label": "checkbox",
+                        "elements-layout": "inline",
+                        "required": "true",
+                        "invalid": "Seleziona almeno un checkbox",
+                        "options": [
+                            {
+                                "label":"opz0",
+                                "value":"0"
+                            },
+                            {
+                                "label": "opz0",
+                                "value": "1"
+                            }
+                        ]
+                    },
+                    
+                    {
+                        "type": "radio",
+                        "name": "radio_name_inli",
+                        "label": "radio",
+                        "elements-layout": "inline",
+                        "required":"true",
+                        "invalid": "Scegli opz0 o opz1",
+                        "options": [
+                            {
+                                "label": "opz0",
+                                "value": "0"
+                            },
+                            {
+                                "label": "opz0",
+                                "value": "1"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "submit",
+                        "text":"Submit",
+                        "pull-right":"true"
+                    }
+                ]
+            }
+
+        ]
+    }
+}

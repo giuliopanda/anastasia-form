@@ -1,0 +1,157 @@
+{
+    "form" :
+    {
+        "render" : "",
+        "method" : "get",
+        "style" : {
+            "color":"#258",
+            "font-size":"16px"
+        },
+        "default-wrap": {
+            "type": "group",
+            "layout": "horizontal_form"
+        },
+
+        "id" : "xf",
+        "fields" : 
+        [
+            {
+                "type":"input",
+                "name":"table.field_name",
+                "label":"Campo richiesto",
+                "default":"",
+                "aria-describedby":" aria describe?",
+                "layout":"horizontal_form",
+                "placeholder":"",
+                "required": "true",
+                "invalid":"Il campo è obbligatorio"
+
+            },
+            {
+                "type":"input",
+                "name":"field_name",
+                "label":"Custom submit",
+                "default":"",
+                "aria-describedby":" aria describe?",
+                "layout":"horizontal_form",
+                "placeholder":"",
+                "gp-validation": "customJsFn",
+                "invalid": "Inserisci almeno 5 caratteri"
+            },
+            {
+                "type":"select",
+                "name":"mioselect",
+                "label": "select Label",
+                "layout": "horizontal_form",
+                "invalid": "Seleziona un'opzione",
+                "required": "true",
+                "options" :
+                [
+                    {
+                        "value": "",
+                        "label": "Seleziona un'opzione"
+                    },
+                    {
+                        "value":"0",
+                        "label":"opzione1"
+                    },
+                     {
+                        "value":"1",
+                        "label":"opzione2"
+                    }
+                ]
+            },
+            {
+                "type": "textarea",
+                "name": "input_name",
+                "label": "input Label2",
+                "aria-describedby": " aria describe?",
+                "layout": "horizontal_form",
+                "placeholder": "place holder",
+                "required": "true",
+                "invalid": "Scrivi un testo"
+            },
+            {
+                "type": "checkbox",
+                "name": "checkbox-checked3",
+                "label": "required All",
+                "aria-describedby": " aria describe?",
+                "layout": "horizontal_form",
+                "required": "true",
+                "invalid": "Bisogna selezionare almeno un'opzione",
+                "options":
+                [
+                    {
+                        "value": "1",
+                        "label": "opzione 1"
+                    },
+                    {
+                        "value": "2",
+                        "label": "opzione 2"
+                    },
+                    {
+                        "value": "3",
+                        "label": "opzione 3"
+                    }
+                ]
+               
+            },
+            {
+                "type": "checkbox",
+                "name": "checkbox-sel",
+                "label": "Required selected opt",
+                "aria-describedby": " aria describe?",
+                "layout": "horizontal_form",
+                "options": [
+                    {
+                        "value": "1",
+                        "label": "opzione 1"
+                    },
+                    {
+                        "value": "2",
+                        "label": "opzione 2",
+                        "required": "true",
+                        "invalid": "Opzione obbligatoria"
+                    },
+                    {
+                        "value": "3",
+                        "label": "opzione 3"
+                    }
+                ]
+            },
+            {
+                "type": "radio",
+                "name": "radio-example-checked",
+                "label": "input Radio",
+                "required": "true",
+                "aria-describedby": " aria describe?",
+                "layout": "horizontal_form",
+                "invalid": "Seleziona un' opzione",
+                "options": [
+                    {
+                        "value": "1",
+                        "label": "opzione 1"
+                    },
+                    {
+                        "value": "2",
+                        "label": "opzione 2"
+                    },
+                    {
+                        "value": "3",
+                        "label": "opzione 3"
+                    },
+                    {
+                        "value": "4",
+                        "label": "opzione 4"
+                    }
+                ]
+            },
+            {
+                "type": "submit",
+                "class": "btn-primary",
+                "text": "invia"
+            }
+
+        ]
+    }
+}

@@ -1,0 +1,57 @@
+{
+    "form" :
+    {
+        "render" : "",
+        "method" : "get",
+        "data-id" : "myId",
+        "style" : {
+            "color":"#258",
+            "font-size":"16px"
+        },
+        "default-wrap": {
+            "type": "group"
+        },
+
+        "name" : "myForm",
+        "fields" : 
+        [
+           
+            {
+                "type":"select",
+                "name":"mioselect",
+                "label": "Opzioni statiche",
+                "default":1,
+                "options" :
+                [
+                    {
+                        "value":"0",
+                        "label":"opzione1"
+                    },
+                     {
+                        "value":"1",
+                        "label":"opzione2"
+                    }
+                ]
+            },
+            {
+                "type": "select",
+                "name": "fnselect",
+                "label": "Opzioni da funzioni",
+                "options-function": "get_options_func"
+            },
+            {
+                "type": "checkbox",
+                "name": "fncheckbox",
+                "label": "Opzioni da checkbox",
+                "options-function": "get_options_func"
+            } ,
+            {
+                "type": "radio",
+                "name": "fnradio",
+                "label": "Opzioni da radio",
+                "options-function": "get_options_func"
+            }
+
+        ]
+    }
+}

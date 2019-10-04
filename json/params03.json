@@ -1,0 +1,90 @@
+{
+    "form" :
+    {
+        "render" : "",
+        "method" : "get",
+        "id" : "myForm3",
+        "fields" : 
+        [
+            { 
+                "type":"group",
+                "layout":"",
+                "fields": 
+                [
+                    {
+                        "type":"input",
+                        "name":"field_name4",
+                        "label":"Campo",
+                        "required":"true"
+                    },
+                    {
+                        "type": "input",
+                        "name": "field_name4",
+                        "label": "Campo",
+                        "required": "true"
+                    }
+                ]
+            },
+            {
+                "type": "group",
+                "layout": "horizontal_form",
+                "title" :"Horizontal form",
+                "fields": [
+                    {
+                        "type": "input",
+                        "name": "field_name4",
+                        "label": "Campo",
+                        "required": "true"
+                    },
+                    {
+                        "type": "input",
+                        "name": "field_name4",
+                        "label": "Campo",
+                        "required": "true"
+                    }
+                ]
+            },
+            {
+                "type": "group",
+                "layout": "",
+                "cols":"6",
+                "title": "Colonne",
+                "fields": [
+                    {
+                        "type": "input",
+                        "name": "field_name4",
+                        "label": "Campo",
+                        "required": "true"
+                    },
+                    {
+                        "type": "input",
+                        "name": "field_name4",
+                        "label": "Campo",
+                        "required": "true"
+                    },
+                    {
+                        "type": "input",
+                        "name": "field_name4",
+                        "label": "Campo",
+                        "required": "true"
+                    },
+                    {
+                        "type": "input",
+                        "name": "field_name4",
+                        "label": "Campo",
+                        "required": "true"
+                    },
+                    {
+                        "type": "input",
+                        "name": "field_name4",
+                        "label": "Campo",
+                        "required": "true"
+                    }
+                ]
+            }
+            
+            
+           
+        ]
+    }
+}

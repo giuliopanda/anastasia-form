@@ -1,0 +1,48 @@
+{
+    "form" :
+    {
+        "render" : "",
+        "method" : "get",
+        "data-id" : "myId",
+        "style" : {
+            "color":"#258",
+            "font-size":"16px"
+        },
+        "default-wrap": {
+            "type": "group",
+            "layout": "horizontal_form"
+        },
+
+        "name" : "myForm",
+        "fields" : 
+        [
+            {
+                "type":"input",
+                "name":"primo_numero",
+                "id":"f2a1",
+                "label":"Primo numero"
+              
+            },
+            {
+                "type": "input",
+                "name": "secondo_numero",
+                "id": "f2a2",
+                "label": "Secondo numero"
+            },
+            {
+                "type": "input",
+                "name": "totale",
+                "label": "Totale",
+                "id": "f2a3",
+                "gp-submit": "form2JsFn"
+            },
+            {
+                "type": "button",
+                "class": "btn-warning",
+                "text": "Calcola",
+                "onclick": "form2Calcola()"
+            }
+
+        ]
+    }
+}

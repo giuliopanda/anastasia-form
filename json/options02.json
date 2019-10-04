@@ -1,0 +1,124 @@
+{
+    "form" :
+    {
+        "render" : "",
+        "method" : "get",
+        "data-id" : "myId",
+        "default-wrap": {
+            "type": "group"
+        },
+
+        "name" : "myForm",
+        "fields" : 
+        [
+            {
+                "type": "group",
+                "layout":"inline",
+                "fields": [
+                    {
+                        "type": "select",
+                        "name": "provincia",
+                        "label": "province",
+                        "options": [
+                            {
+                                "optgroup": {
+                                    "label":"Lazio",
+                                    "id": "lazio",
+                                    "options": [
+                                        {
+                                            "value": "roma",
+                                            "label": "roma"
+                                        },
+                                        {
+                                            "value": "frosinone",
+                                            "label": "frosinone"
+                                        },
+                                        {
+                                            "value": "latina",
+                                            "label": "latina"
+                                        },
+                                        {
+                                            "value": "rieti",
+                                            "label": "Rieti"
+                                        },
+                                        {
+                                            "value": "Viterbo",
+                                            "label": "Viterbo"
+                                        }
+                                    ]
+                                }
+                                
+                            },
+                            {
+                                "optgroup": {
+                                    "label": "lombardia",
+                                    "id": "lombardina",
+                                    "options": [
+                                        {
+                                            "value": "MILANO",
+                                            "label": "MILANO"
+                                        },
+                                        {
+                                            "value": "Mantova",
+                                            "label": "Mantova"
+                                        },
+                                        {
+                                            "value": "Lodi",
+                                            "label": "Lodi"
+                                        },
+                                        {
+                                            "value": "Lecco",
+                                            "label": "Lecco"
+                                        },
+                                        {
+                                            "value": "Cremona",
+                                            "label": "Cremona"
+                                        },
+                                        {
+                                            "value": "Como",
+                                            "label": "Como"
+                                        },
+                                        {
+                                            "value": "Brescia",
+                                            "label": "Brescia"
+                                        },
+                                        {
+                                            "value": "Bergamo",
+                                            "label": "Bergamo"
+                                        },
+                                        {
+                                            "value": "Monza e della Brianza",
+                                            "label": "Monza e della Brianza"
+                                        },
+                                        {
+                                            "value": "Pavia",
+                                            "label": "Pavia"
+                                        },
+                                        {
+                                            "value": "Sondrio",
+                                            "label": "Sondrio"
+                                        },
+                                        {
+                                            "value": "Varese",
+                                            "label": "Varese"
+                                        }
+                                    ]
+                                }
+                                
+                            }
+                        ]
+                        
+                    }
+                ]
+            },
+            {
+                "type": "select",
+                "name": "provincia_da_funzione",
+                "label": "province da funzione",
+                "options-function": "get_optgroup_example_func"
+            }
+
+
+        ]
+    }
+}

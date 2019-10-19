@@ -11,7 +11,7 @@ function gpHtml_radio($settings, $values) {
         $values[$settings['name']] = $settings['default'];
     }
     $tempUniqid =  uniqid();
-    if (!isset($settings['name-clean'])) {
+    if (!isset($settings['_name-clean'])) {
         $settings['clean-name'] = $tempUniqid;
     }
     if (!isset($settings['id'])) {
@@ -21,9 +21,9 @@ function gpHtml_radio($settings, $values) {
          $settings['name'] = "temporaly_name_".$tempUniqid;
     }
      if (isset ($settings['pre-id'])) {
-        $class= "jsradio-".$settings['pre-id'].$settings['name-clean'];
+        $class= "jsradio-".$settings['pre-id'].$settings['_name-clean'];
     } else {
-        $class= "jsradio-".$settings['name-clean'];
+        $class= "jsradio-".$settings['_name-clean'];
     }
     
     if  (isset($settings["elements-layout"]) && substr($settings["elements-layout"],0,5) == "grid-") {

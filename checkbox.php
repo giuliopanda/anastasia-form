@@ -1,6 +1,7 @@
 <?php 
     // dove si trovano i singoli campi da caricare
     $fieldFolder = "bootstrap_fields";
+    require (dirname(__FILE__)."/gpform/utility.php");
     require (dirname(__FILE__)."/gpform/gpform.php");
     gpHtml_loadFolderFields($fieldFolder);
 ?><html>

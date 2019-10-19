@@ -11,8 +11,8 @@ function gpHtml_checkbox($settings, $values) {
         $values[$settings['name']] = $settings['default'];
     }
     $tempUniqid =  uniqid();
-    if (!isset($settings['name-clean'])) {
-        $settings['clean-name'] = $tempUniqid;
+    if (!isset($settings['_name-clean'])) {
+        $settings['_name-clean'] = $tempUniqid;
     }
     if (!isset($settings['id'])) {
          $settings['id'] = "gpi".$tempUniqid;
@@ -21,9 +21,9 @@ function gpHtml_checkbox($settings, $values) {
          $settings['name'] = "temporaly_name_".$tempUniqid;
     }
      if (isset ($settings['pre-id'])) {
-        $class= "jscheckbox-".$settings['pre-id'].$settings['name-clean'];
+        $class= "jscheckbox-".$settings['pre-id'].$settings['_name-clean'];
     } else {
-        $class= "jscheckbox-".$settings['name-clean'];
+        $class= "jscheckbox-".$settings['_name-clean'];
     }
     $colGrid = $colCount = $divRowOpened = 0;
     if  (isset($settings["elements-layout"]) && substr($settings["elements-layout"],0,5) == "grid-") {

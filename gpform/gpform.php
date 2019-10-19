@@ -1,5 +1,5 @@
 <?php
-
+define("ANASTASIA_FORM","1");
 function gpHtml_loadFolderFields($dir, $relative = true) {
     if ($relative) {
         $directory = dirname(__FILE__).DIRECTORY_SEPARATOR.$dir;
@@ -40,11 +40,16 @@ function gpHtml_form($formArray, $values) {
     $count = 0;
     $render = (isset($formArray['render']) && trim($formArray['render']) != "") ?$formArray['render']."_" : '';
     $settingLayout = (isset($formArray['layout'])) ? $formArray['layout'] : '' ;
-  
+
     foreach ($formArray['fields'] as $field) {
         if (isset($formArray['id'])) {
             $field['pre-id'] = $formArray['id'];
         }
+
+        if (isset($formArray['preview-name']) && !isset($field['preview-name'])) {
+            $field['preview-name'] = $formArray['preview-name'];
+        }
+
         // parametri che vengono passati dal form  ai campi o al gruppo. Nel caso il gruppo poi deve passare questi valori ai campi 
         $field['layout'] = (isset($field['layout']) && $field['layout'] != "") ? $field['layout'] : $settingLayout;
         $count++;
@@ -239,11 +244,11 @@ function gpHtmlUtilityAttrSetting($settings, $add = false) {
         $string = (isset($settings['name'])) ? $settings['name'] : ((isset($settings['labelname'])) ? $settings['labelname'] : '');
         if ($string != "") {
             $string = str_replace(array(' ',"-"), '_', strtolower($string)); 
-            $settings['name-clean']  = preg_replace('/[^A-Za-z0-9\-]/', '', $string);
+            $settings['_name-clean']  = preg_replace('/[^A-Za-z0-9\-]/', '', $string);
             if (isset ($settings['pre-id'])) {
-                $settings['id'] = "gpi".$settings['pre-id'].$settings['name-clean'];
+                $settings['id'] = "gpi".$settings['pre-id'].$settings['_name-clean'];
             } else {
-                $settings['id'] = "gpi".$settings['name-clean'];
+                $settings['id'] = "gpi".$settings['_name-clean'];
             }
         }
     }
@@ -302,49 +307,26 @@ function gpHtmlUtilityAttrSetting($settings, $add = false) {
             }
         }
     }
-     if (isset($settings['name'])) {
+    if (isset($settings['name'])) {
         $settings['name'] = trim ($settings['name']);
+        $settings['nameForValue'] = $settings['name'];
         if (strpos($settings['name'],".") > 0) {
             $tempName = explode(".", $settings['name']);
-            $settings['name'] = array_shift($tempName);
+            $settings['nameForValue'] =$tempName[count($tempName) - 1];
+            if(isset($settings['preview-name']) && $settings['preview-name'] !="") {
+               $settings['name'] = $settings['preview-name']."[". array_shift($tempName)."]";
+            } else {
+                $settings['name'] = array_shift($tempName);
+            }
             foreach ($tempName as $tp) {
                 $settings['name'] .= "[".trim($tp)."]";
             }
+        } elseif(isset($settings['preview-name']) && $settings['preview-name'] !="") {
+            $settings['name'] = $settings['preview-name']."[". $settings['name']."]";
+            
         }
     } 
 
     return $settings;
 }
 
-/**
- * Decode del json
- */
-function gpJsonDecode($string) {
-    $json = json_decode($string, true);
-    $error = true;
-    switch (json_last_error()) {
-        case JSON_ERROR_NONE:
-            $error = false;
-           // echo ' - No errors';
-        break;
-        case JSON_ERROR_DEPTH:
-         //   echo ' - Maximum stack depth exceeded';
-        break;
-        case JSON_ERROR_STATE_MISMATCH:
-         //   echo ' - Underflow or the modes mismatch';
-        break;
-        case JSON_ERROR_CTRL_CHAR:
-         //   echo ' - Unexpected control character found';
-        break;
-        case JSON_ERROR_SYNTAX:
-         //   echo ' - Syntax error, malformed JSON';
-        break;
-        case JSON_ERROR_UTF8:
-         //   echo ' - Malformed UTF-8 characters, possibly incorrectly encoded';
-        break;
-        default:
-         //   echo ' - Unknown error';
-        break;
-    }
-    return ($error) ? false : $json;
-}

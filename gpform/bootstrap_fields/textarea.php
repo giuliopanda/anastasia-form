@@ -11,7 +11,7 @@ function gpHtml_textarea($settings, $values) {
     $value =  gpHtmlGetAttrValue(array('value', 'default'), $settings);
     
     $settings = gpHtmlUtilityAttrSetting($settings, array('class'=>array('form-control')));
-    $html = '<textarea'. gpHtmlGetAttrs(array('type','aria-describedby','placeholder', 'required'), $settings) . '>'.$value.'</textarea>';
+    $html = '<textarea'. gpHtmlGetAttrs(array('name', 'type','aria-describedby','placeholder', 'required'), $settings) . '>'.$value.'</textarea>';
     if (isset($settings['invalid']) && $settings['invalid'] != "") {
         $html .= '<div class="invalid-feedback">'.$settings['invalid'].'</div>';
     }

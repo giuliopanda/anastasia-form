@@ -93,8 +93,12 @@ function gpHtml_checkbox($settings, $values) {
     } else {
         $required = "";
     }
-
-    $html .= '  <input type="text" id="'.$settings['id'].'" name="'.$settings['name'].'-mergecheckbox" value="'.htmlentities($value).'" class="form-control"'.$required.'data-checkboxgroupclass="'.$class.'" style="display:none">'."\n    ";
+    if (substr($settings['name'],-1) == "]" ) {
+        $mergeCheckName = substr($settings['name'],0,-1).'-mergecheckbox]';
+    } else {
+        $mergeCheckName = $settings['name'].'-mergecheckbox';
+    }
+    $html .= '  <input type="text" id="'.$settings['id'].'" name="'.$mergeCheckName .'" value="'.htmlentities($value).'" class="form-control"'.$required.'data-checkboxgroupclass="'.$class.'" style="display:none">'."\n    ";
     if (isset($settings['invalid']) && $settings['invalid'] != "") {
         $html .= '<div class="invalid-feedback">'.$settings['invalid'].'</div>';
     }
@@ -103,12 +107,15 @@ function gpHtml_checkbox($settings, $values) {
 
 
 function gpHtml_checkbox_option($optKey, $opt, $values, $settings, $class, $colGrid, $colCount, $divRowOpened) {
-    if (isset($opt['value']) && isset($values[$settings['name']])) {
-            if (is_array($values[$settings['name']])) {
-                if (in_array($opt['value'], $values[$settings['name']])) {
+    if (!isset($values[$settings['nameForValue']])) {
+        $values[$settings['nameForValue']] =   gpHtmlGetAttrValue(array('value', 'default'), $settings);
+    }
+    if (isset($opt['value']) && isset($values[$settings['nameForValue']])) {
+            if (is_array($values[$settings['nameForValue']])) {
+                if (in_array($opt['value'], $values[$settings['nameForValue']])) {
                     $opt['checked'] = true;
                 }
-            } else if ($values[$settings['name']] == $opt['value']) {
+            } else if ($values[$settings['nameForValue']] == $opt['value']) {
                 $opt['checked'] = true;
             }
         }
@@ -127,7 +134,7 @@ function gpHtml_checkbox_option($optKey, $opt, $values, $settings, $class, $colG
         
         $opt['label']['class'] = 'custom-control-label';
         
-        $tmp    = "\n          ".'<input '. gpHtmlGetAttrs(array('type','value', 'checked', 'required', 'disabled'), $opt) . '>';
+        $tmp    = "\n          ".'<input '. gpHtmlGetAttrs(array('name', 'type', 'value', 'checked', 'required', 'disabled'), $opt) . '>';
         $tmp   .= "\n          ".'<label '. gpHtmlGetAttrs(array('for'), $opt['label']) . ' >'. gpHtmlGetAttrValue('labelname', $opt) . '</label>'."\n      ";
        if (isset($opt['invalid']) && $opt['invalid'] != "") {
             $tmp .= '<div class="invalid-feedback">'.$opt['invalid'].'</div>';

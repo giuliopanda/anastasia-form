@@ -31,10 +31,70 @@
                         "required": "true"
                     }
                 ]
+            },
+            {
+                "type": "group",
+                "title": "gruppo opzioni",
+                "repeatable": "true",
+                "name": "checkboxes",
+                "layout": "",
+                "fields": [
+                    {
+                        "type": "checkbox",
+                        "name": "checkbox-cols",
+                        "label": "Cols",
+                        "required": "true",
+                        "elements-layout": "grid-4",
+                        "invalid": "Seleziona almeno un'opzione",
+                        "options": [
+                            {
+                                "value": "1",
+                                "label": "opzione 1"
+                            },
+                            {
+                                "value": "2",
+                                "label": "opzione 2"
+                            },
+                            {
+                                "value": "3",
+                                "label": "opzione 3"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "type": "group",
+                "title": "radio Da' errore in console",
+                "repeatable": "true",
+                "name": "radios",
+                "layout": "",
+                "fields": [
+                    {
+                        "type": "radio",
+                        "name": "rd",
+                        "label": "Cols",
+                        "required": "true",
+                        "elements-layout": "inline",
+                        "invalid": "Seleziona almeno un'opzione",
+                        "options": [
+                            {
+                                "value": "1",
+                                "label": "opzione 1"
+                            },
+                            {
+                                "value": "2",
+                                "label": "opzione 2"
+                            },
+                            {
+                                "value": "3",
+                                "label": "opzione 3"
+                            }
+                        ]
+                    }
+                ]
             }
-            
-            
-           
+
         ]
     }
 }

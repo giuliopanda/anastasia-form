@@ -48,3 +48,8 @@ label {font-weight: 500}
          margin-right:0 !important;
      }
 }
+
+.gphtml-repeatable {    border: 1px solid #f0f2f5;
+    border-left: 0.7rem solid #f0f2f5;
+    padding: 1rem;
+    margin-bottom: -1px;}

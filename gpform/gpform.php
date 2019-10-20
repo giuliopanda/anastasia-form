@@ -123,7 +123,7 @@ function gpHtmlSetLayout($html, $setting) {
  function gpHtmlGetAttrs($arrayAttribute, $settings, $addDefault = true) {
     $string = array();
      if ($addDefault) {
-         $arrayAttribute = array_merge($arrayAttribute, array('name','class','style','id','title','alt','onclick','onblur','onchange','oncontextmenu','onfocus','oninput','oninvalid','onreset','onsearch','onselect','onsubmit'));
+         $arrayAttribute = array_merge($arrayAttribute, array('class','style','id','title','alt','onclick','onblur','onchange','oncontextmenu','onfocus','oninput','oninvalid','onreset','onsearch','onselect','onsubmit'));
         $arrayAttribute = array_unique($arrayAttribute);
         foreach ($settings as $att=>$_val) {
             if (substr($att,0,5) == "data-" || substr($att,0,2) == "v-" || substr($att,0,3) == "gp-") {
@@ -240,16 +240,18 @@ function gpHtmlAddAttrValue($attributeArray, $array) {
  * Utility per il setting degli attributi degli elementi html. In particolare inserisce l'id se non esisteva e divide gli attributi per il label.
  */
 function gpHtmlUtilityAttrSetting($settings, $add = false) {
-    if (!isset($settings['id'])) {
-        $string = (isset($settings['name'])) ? $settings['name'] : ((isset($settings['labelname'])) ? $settings['labelname'] : '');
-        if ($string != "") {
-            $string = str_replace(array(' ',"-"), '_', strtolower($string)); 
-            $settings['_name-clean']  = preg_replace('/[^A-Za-z0-9\-]/', '', $string);
-            if (isset ($settings['pre-id'])) {
-                $settings['id'] = "gpi".$settings['pre-id'].$settings['_name-clean'];
-            } else {
-                $settings['id'] = "gpi".$settings['_name-clean'];
-            }
+   
+    if (!isset($settings['id']) && isset($settings['name'])) {
+        if(isset($settings['preview-name']) && $settings['preview-name'] !="") {
+            $string  = str_replace(array(' ',"-"), '_', strtolower(trim($settings['preview-name'])))."_".str_replace(array(' ',"-"), '_', strtolower(trim($settings['name'])));
+        } else {
+            $string = str_replace(array(' ',"-"), '_', strtolower(trim($settings['name']))); 
+        }
+        $settings['_name-clean']  = preg_replace('/[^A-Za-z0-9\-]/', '', $string);
+        if (isset ($settings['pre-id'])) {
+            $settings['id'] = "gpi".$settings['pre-id'].$settings['_name-clean'];
+        } else {
+            $settings['id'] = "gpi".$settings['_name-clean'];
         }
     }
     if (!isset($settings['labelname'])) {
@@ -308,22 +310,22 @@ function gpHtmlUtilityAttrSetting($settings, $add = false) {
         }
     }
     if (isset($settings['name'])) {
-        $settings['name'] = trim ($settings['name']);
+       
         $settings['nameForValue'] = $settings['name'];
-        if (strpos($settings['name'],".") > 0) {
+        if(isset($settings['preview-name']) && $settings['preview-name'] !="") {
+            $settings['name'] = trim($settings['preview-name']).".".trim ($settings['name']);
+        } else {
+            $settings['name'] = trim ($settings['name']);
+        }
+        if (strpos($settings['name'], ".") > 0) {
             $tempName = explode(".", $settings['name']);
             $settings['nameForValue'] =$tempName[count($tempName) - 1];
-            if(isset($settings['preview-name']) && $settings['preview-name'] !="") {
-               $settings['name'] = $settings['preview-name']."[". array_shift($tempName)."]";
-            } else {
-                $settings['name'] = array_shift($tempName);
-            }
+            $settings['name'] = trim(array_shift($tempName));
             foreach ($tempName as $tp) {
                 $settings['name'] .= "[".trim($tp)."]";
             }
         } elseif(isset($settings['preview-name']) && $settings['preview-name'] !="") {
             $settings['name'] = $settings['preview-name']."[". $settings['name']."]";
-            
         }
     } 
 

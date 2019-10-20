@@ -4,7 +4,7 @@
 function gpHtml_select($settings, $values) {
     $html = "";
     $settings = gpHtmlUtilityAttrSetting($settings, array('class'=>array('custom-select')));
-    $html = "\n      ".'<select'. gpHtmlGetAttrs(array('type','aria-describedby','placeholder', 'required'), $settings) . '>'."\n        ";
+    $html = "\n      ".'<select'. gpHtmlGetAttrs(array('name', 'type','aria-describedby','placeholder', 'required'), $settings) . '>'."\n        ";
     $options = array();
     $value =  gpHtmlGetAttrValue(array('value', 'default'), $settings);
     if (isset($settings['options-function']) && function_exists($settings['options-function']))  {

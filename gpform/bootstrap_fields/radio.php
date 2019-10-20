@@ -58,7 +58,7 @@ function gpHtml_radio($settings, $values) {
         
         $opt['label']['class'] = 'custom-control-label';
         
-        $tmp    = "\n          ".'<input '. gpHtmlGetAttrs(array('type','value', 'checked', 'required', 'disabled'), $opt) . '>';
+        $tmp    = "\n          ".'<input '. gpHtmlGetAttrs(array('name', 'type','value', 'checked', 'required', 'disabled'), $opt) . '>';
         $tmp   .= "\n          ".'<label '. gpHtmlGetAttrs(array('for'), $opt['label']) . ' >'. gpHtmlGetAttrValue('labelname', $opt) . '</label>'."\n      ";
        if (isset($opt['invalid']) && $opt['invalid'] != "") {
             $tmp .= '<div class="invalid-feedback">'.$opt['invalid'].'</div>';

@@ -13,11 +13,22 @@ function gpHtml_group($settings, $values) {
     if (isset($settings['repeatable'])) {
         if (isset($settings['name']) &&  isset($values[$settings['name']])  && is_array($values[$settings['name']])) {
             $tempHtml = array();
+            $k = 0;
             foreach ($values[$settings['name']] as $val) {
-                $tempHtml[] = gpHtml_single_group ($settings, $val,  $formControlSettings);
-                
+                $customSettings = $settings;
+                $customSettings['name'] = $customSettings['name'].".".($k++);
+                if (!is_array($settings['repeatable'])) {
+                    $settings['repeatable'] = array($settings['repeatable']);
+                }
+                $repeatableSettings = gpHtmlUtilityAttrSetting($settings['repeatable'], array('class'=>array("gphtml-repeatable"), 'data-repgroup'=>$customSettings['name']));
+                $tempHtml[] = "<div ".gpHtmlGetAttrs(array(), $repeatableSettings).">";
+                $tempHtml[] = gpHtml_single_group ($customSettings, $val,  $formControlSettings);
+                $tempHtml[] = "</div>";
             }
             $html = implode("", $tempHtml);
+        } else {
+            //TODO ERRORE se non è impostato un nome in un gruppo ripetibile.
+            
         }
     } else {
         if (isset($settings['name']) &&  isset($values[$settings['name']]) && is_array($values[$settings['name']])) {
@@ -77,6 +88,13 @@ function gpHtml_single_group ($settings, $values,  $formControlSettings) {
         $field['layout'] = $layout = (isset($field['layout']) && $field['layout'] != "") ? $field['layout']: $settingLayout;
         $field['col-label'] = (isset($field['col-label']) && $field['col-label'] != "") ? $field['col-label'] : $settingColLabel;
         $field['col-form'] = (isset($field['col-form']) && $field['col-form'] != "") ? $field['col-form'] : $settingColForm;
+        if (isset($settings['name'])) {
+            if (isset($settings['preview-name'])) {
+                $field['preview-name'] = $settings['preview-name'].".".$settings['name'];
+            } else {
+                $field['preview-name'] = $settings['name'];
+            }
+        }
         // NON VA BENE!!! il layout deve essere a livello di elementi del form
         if (function_exists('gpHtml_'.$field['type'])) {
             $htmlField = call_user_func_array('gpHtml_'.$field['type'], array($field, $values));

@@ -1,0 +1,19 @@
+{
+    "form" :
+    {
+        "method" : "get",
+        "id":"f02",
+        "preview-name":"user",
+        "default-wrap": {
+            "type": "group"
+        },
+        "fields" : 
+        [
+            {
+                "type":"input",
+                "name":"name",
+                "label":"Nome"
+            }
+        ]
+    }
+}

@@ -7,7 +7,7 @@ function gpHtml_input($settings, $values) {
     } else {
         $settings['value'] =  gpHtmlGetAttrValue(array('value', 'default'), $settings);
     }
-    $html = '<input'. gpHtmlGetAttrs(array('name','type','aria-describedby','value','placeholder', 'required', 'disabled','maxlength','max','min','pattern','step'), $settings) . '>';
+    $html = '<input'. gpHtmlGetAttrs(array('name','type','aria-describedby','value','placeholder',  'required', 'readonly', 'disabled','maxlength','max','min','pattern','step'), $settings) . '>';
     if (isset($settings['invalid']) && $settings['invalid'] != "") {
         $html .= '<div class="invalid-feedback">'.$settings['invalid'].'</div>';
     }

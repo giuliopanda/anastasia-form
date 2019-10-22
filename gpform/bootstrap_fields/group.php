@@ -31,8 +31,12 @@ function gpHtml_group($settings, $values) {
             
         }
     } else {
-        if (isset($settings['name']) &&  isset($values[$settings['name']]) && is_array($values[$settings['name']])) {
-            $values = $values[$settings['name']];
+        if (isset($settings['name']) ) {
+            if (isset($values[$settings['name']]) && is_array($values[$settings['name']])) {
+                $values = $values[$settings['name']];
+            }   else {
+                $values = array();
+            }
         }
         $html = gpHtml_single_group ($settings, $values,  $formControlSettings);
     }

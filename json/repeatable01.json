@@ -65,7 +65,7 @@
             },
             {
                 "type": "group",
-                "title": "radio Da' errore in console",
+                "title": "Radio",
                 "repeatable": "true",
                 "name": "radios",
                 "layout": "",

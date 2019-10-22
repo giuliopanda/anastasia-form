@@ -10,19 +10,33 @@ function gpHtml_select($settings, $values) {
     if (isset($settings['options-function']) && function_exists($settings['options-function']))  {
         $settings['options'] =  call_user_func_array($settings['options-function'], array($settings, $values));
     }
+    if (!isset($values[$settings['name']]) && isset($settings['default'])) {
+        $values[$settings['name']] = $settings['default'];
+    }
+    
     foreach ($settings['options'] as $opt)  {
         if (isset($opt['optgroup'])) {
               $options[] = '<optgroup '. gpHtmlGetAttrs(array('label'), $opt['optgroup']) .'>';
               foreach ($opt['optgroup']['options'] as $optg)  {
-                    if ($value == gpHtmlGetAttrValue('value', $optg) ) {
-                        $optg['selected'] = "selected";
+                    if (is_array($values[$settings['nameForValue']])) {
+                        if (in_array($optg['value'], $values[$settings['nameForValue']])) {
+                            $optg['selected'] = "selected";
+                        }
+                    } else if ($values[$settings['nameForValue']] == $optg['value']) {
+                        $optg['selected'] = true;
                     }
                     $options[] = '<option '. gpHtmlGetAttrs(array('value','selected'), $optg) .'>'. gpHtmlGetAttrValue(array('label', 'value'), $optg) . '</option>';
               }
               $options[] =  '</optgroup>';
         } else {
-            if ($value == gpHtmlGetAttrValue('value', $opt) ) {
-                $opt['selected'] = "selected";
+            if (isset($opt['value']) && isset($values[$settings['nameForValue']])) {
+                if (is_array($values[$settings['nameForValue']])) {
+                    if (in_array($opt['value'], $values[$settings['nameForValue']])) {
+                        $opt['selected'] = "selected";
+                    }
+                } else if ($values[$settings['nameForValue']] == $opt['value']) {
+                    $opt['selected'] = true;
+                }
             }
             $options[] = '<option '. gpHtmlGetAttrs(array('value','selected'), $opt) .'>'. gpHtmlGetAttrValue(array('label', 'value'), $opt) . '</option>';
         }

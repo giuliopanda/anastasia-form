@@ -37,12 +37,15 @@ function gpHtml_radio($settings, $values) {
         $settings['options'] =  call_user_func_array($settings['options-function'], array($settings, $values));
     }
     foreach ($settings['options'] as $optKey => $opt)  {
-        if (isset($opt['value']) && isset($values[$settings['name']])) {
-            if (is_array($values[$settings['name']])) {
-                if (in_array($opt['value'], $values[$settings['name']])) {
+         if (!isset($values[$settings['nameForValue']])) {
+            $values[$settings['nameForValue']] =   gpHtmlGetAttrValue(array('value', 'default'), $settings);
+        }
+        if (isset($opt['value']) && isset($values[$settings['nameForValue']])) {
+            if (is_array($values[$settings['nameForValue']])) {
+                if (in_array($opt['value'], $values[$settings['nameForValue']])) {
                     $opt['checked'] = true;
                 }
-            } else if ($values[$settings['name']] == $opt['value']) {
+            } else if ($values[$settings['nameForValue']] == $opt['value']) {
                 $opt['checked'] = true;
             }
         }
@@ -113,8 +116,12 @@ function gpHtml_radio($settings, $values) {
     } else {
         $required = "";
     }
-
-    $html .= '  <input type="text" id="'.$settings['id'].'" name="'.$settings['name'].'-mergeradio" value="'.htmlentities($value).'" class="form-control"'.$required.'data-radiogroupclass="'.$class.'" style="display:none">'."\n    ";
+    if (substr($settings['name'],-1) == "]" ) {
+        $mergeCheckName = substr($settings['name'],0,-1).'-mergeradio]';
+    } else {
+        $mergeCheckName = $settings['name'].'-mergeradio';
+    }
+    $html .= '  <input type="text" id="'.$settings['id'].'" name="'.$mergeCheckName.'" value="'.htmlentities($value).'" class="form-control"'.$required.'data-radiogroupclass="'.$class.'" style="display:none">'."\n    ";
     if (isset($settings['invalid']) && $settings['invalid'] != "") {
         $html .= '<div class="invalid-feedback">'.$settings['invalid'].'</div>';
     }

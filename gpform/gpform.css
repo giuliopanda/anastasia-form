@@ -12,6 +12,7 @@
 .gphtml-default-layout, .gphtml-layout-inline, .gphtml-layout-horizontal-form {padding: .5rem .5rem 0 .5rem}
 
 label {font-weight: 500}
+.gphtml-default-layout label {display:block}
 .custom-checkbox label, .custom-radio label {font-weight: normal}
 .gphtml-footer {
     padding: .5rem .75rem;
@@ -19,7 +20,7 @@ label {font-weight: 500}
     font-size: .80rem;
     margin-bottom: .5rem;
 }
-.gphtml-optgroup-title {  margin:1rem 0 .5rem 0; font-size:1rem; font-color:#6c757d; }
+.gphtml-optgroup-title {  margin:1rem 0 .5rem 0; font-size:1rem; color:#6c757d; }
 .gphtml-first-optgroup .gphtml-optgroup-title {margin-top:0;}
 
 .gphtml-horizontal-form .custom-checkbox:first-child .custom-control-label, .gphtml-horizontal-form .custom-radio:first-child .custom-control-label {margin-top: calc(.375rem + 1px);}

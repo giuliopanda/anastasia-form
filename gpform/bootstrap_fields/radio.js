@@ -29,6 +29,6 @@ function setRadioValue(that) {
     // that è il campo input
     var rifInput = $(that).data('inputid');
     var name = $(that).prop('name');
-    $(rifInput).val($('input[name=' + name + ']:checked').val());
+    $(rifInput).val($('input[name="' + name + '"]:checked').val());
     $(rifInput).change();
 }

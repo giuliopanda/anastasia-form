@@ -30,6 +30,7 @@
             $data['checkboxes'][] = array('checkbox-cols'=>array(1,2));
             $data['checkboxes'][] = array('checkbox-cols'=>array());
             $data['radios'][] = array('rd'=>array());
+            $data['radios'][] = array('rd'=>array("1"));
             $dataForm = gpJsonDecode($json);
             ?>
             <div class="row">

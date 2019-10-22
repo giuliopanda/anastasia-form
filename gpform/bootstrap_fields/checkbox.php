@@ -111,46 +111,46 @@ function gpHtml_checkbox_option($optKey, $opt, $values, $settings, $class, $colG
         $values[$settings['nameForValue']] =   gpHtmlGetAttrValue(array('value', 'default'), $settings);
     }
     if (isset($opt['value']) && isset($values[$settings['nameForValue']])) {
-            if (is_array($values[$settings['nameForValue']])) {
-                if (in_array($opt['value'], $values[$settings['nameForValue']])) {
-                    $opt['checked'] = true;
-                }
-            } else if ($values[$settings['nameForValue']] == $opt['value']) {
+        if (is_array($values[$settings['nameForValue']])) {
+            if (in_array($opt['value'], $values[$settings['nameForValue']])) {
                 $opt['checked'] = true;
             }
+        } else if ($values[$settings['nameForValue']] == $opt['value']) {
+            $opt['checked'] = true;
         }
-        $opt['name'] = $settings['name'];
-      
-        if (isset($settings["gp-validation"])) {
-            $opt["gp-validation"] = $settings["gp-validation"];
+    }
+    $opt['name'] = $settings['name'];
+    
+    if (isset($settings["gp-validation"])) {
+        $opt["gp-validation"] = $settings["gp-validation"];
+    }
+    $opt['id'] = "temp_".uniqid();
+    $opt = gpHtmlUtilityAttrSetting($opt, array('class'=>array('custom-control-input', $class),'data-checkboxgroupclass'=>$class,'type'=>"checkbox"));
+    
+    if (count ($settings['options']) > 1) {
+        $opt['name'] .= "[]";
+    }
+    $opt['data-inputid'] = "#".$settings['id'];
+    
+    $opt['label']['class'] = 'custom-control-label';
+    
+    $tmp    = "\n          ".'<input '. gpHtmlGetAttrs(array('name', 'type', 'value', 'checked', 'required', 'disabled'), $opt) . '>';
+    $tmp   .= "\n          ".'<label '. gpHtmlGetAttrs(array('for'), $opt['label']) . ' >'. gpHtmlGetAttrValue('labelname', $opt) . '</label>'."\n      ";
+    if (isset($opt['invalid']) && $opt['invalid'] != "") {
+        $tmp .= '<div class="invalid-feedback">'.$opt['invalid'].'</div>';
+    }
+    $addClassElLayout =  (isset($settings["elements-layout"]) && $settings["elements-layout"] == "inline") ? ' custom-control-inline ' : '';
+    $optionNewRow =  "\n      ".'<div class="custom-control custom-checkbox'.$addClassElLayout.'">'.$tmp.'</div>';
+    if  (isset($settings["elements-layout"]) && substr($settings["elements-layout"],0,5) == "grid-") {
+        $optionNewRow = '<div class="col-sm-'.$colGrid.'">'.$optionNewRow.'</div>';
+        if ($optKey%$colCount == 0)  {
+            $divRowOpened = true;
+            $optionNewRow = '<div class="row">'. $optionNewRow;
+        } 
+        if ($optKey%$colCount == $colCount-1)  {
+            $divRowOpened = false;
+            $optionNewRow =  $optionNewRow."</div>";
         }
-        $opt['id'] = "temp_".uniqid();
-        $opt = gpHtmlUtilityAttrSetting($opt, array('class'=>array('custom-control-input', $class),'data-checkboxgroupclass'=>$class,'type'=>"checkbox"));
-        
-        if (count ($settings['options']) > 1) {
-            $opt['name'] .= "[]";
-        }
-        $opt['data-inputid'] = "#".$settings['id'];
-        
-        $opt['label']['class'] = 'custom-control-label';
-        
-        $tmp    = "\n          ".'<input '. gpHtmlGetAttrs(array('name', 'type', 'value', 'checked', 'required', 'disabled'), $opt) . '>';
-        $tmp   .= "\n          ".'<label '. gpHtmlGetAttrs(array('for'), $opt['label']) . ' >'. gpHtmlGetAttrValue('labelname', $opt) . '</label>'."\n      ";
-       if (isset($opt['invalid']) && $opt['invalid'] != "") {
-            $tmp .= '<div class="invalid-feedback">'.$opt['invalid'].'</div>';
-        }
-        $addClassElLayout =  (isset($settings["elements-layout"]) && $settings["elements-layout"] == "inline") ? ' custom-control-inline ' : '';
-        $optionNewRow =  "\n      ".'<div class="custom-control custom-checkbox'.$addClassElLayout.'">'.$tmp.'</div>';
-        if  (isset($settings["elements-layout"]) && substr($settings["elements-layout"],0,5) == "grid-") {
-            $optionNewRow = '<div class="col-sm-'.$colGrid.'">'.$optionNewRow.'</div>';
-            if ($optKey%$colCount == 0)  {
-                $divRowOpened = true;
-                $optionNewRow = '<div class="row">'. $optionNewRow;
-            } 
-            if ($optKey%$colCount == $colCount-1)  {
-                $divRowOpened = false;
-                $optionNewRow =  $optionNewRow."</div>";
-            }
-        }
-        return array($optionNewRow, $divRowOpened);
+    }
+    return array($optionNewRow, $divRowOpened);
 }

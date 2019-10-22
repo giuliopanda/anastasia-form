@@ -9,6 +9,16 @@ function gpHtml_group($settings, $values) {
     } else {
         $formControlSettings = gpHtmlUtilityAttrSetting(array('class'=>array('form-group')));
     }
+
+  
+    if (@$settings['layout'] == 'horizontal_form' ) {
+        $wrapSettings = gpHtmlUtilityAttrSetting($settings, array('class'=>array("gphtml-layout-horizontal-form")));
+    } else if (@$settings['layout'] == 'inline' ) {
+         $wrapSettings = gpHtmlUtilityAttrSetting($settings, array('class'=>array("gphtml-layout-inline")));
+    } else {
+        $wrapSettings = gpHtmlUtilityAttrSetting($settings,  array('class'=>array("gphtml-default-layout")));
+    }
+
     $html = '';
     if (isset($settings['repeatable'])) {
         if (isset($settings['name']) &&  isset($values[$settings['name']])  && is_array($values[$settings['name']])) {
@@ -25,6 +35,22 @@ function gpHtml_group($settings, $values) {
                 $tempHtml[] = gpHtml_single_group ($customSettings, $val,  $formControlSettings);
                 $tempHtml[] = "</div>";
             }
+            $idRip = "ripeatebletemplate".uniqid();
+            $repeatableSettings = gpHtmlUtilityAttrSetting($settings['repeatable'], array('class'=>array("gphtml-repeatable"),'id'=>$idRip, 'style'=>"display:none;"));
+            $tempHtml[] = "<div ".gpHtmlGetAttrs(array(), $repeatableSettings).">";
+            $customSettingClone = $settings;
+            $addData = array();
+            if(isset($customSettingClone['preview-name'])) {
+                $addData[] = "data-previewname=\"". $customSettingClone['preview-name']."\"";
+                unset($customSettingClone['preview-name']);
+            }
+            if(isset($customSettingClone['name'])) {
+                $addData[] = "data-name=\"".$customSettingClone['name']."\"";
+                unset($customSettingClone['name']);
+            }
+            $tempHtml[] = gpHtml_single_group ($customSettingClone, array(),  $formControlSettings);
+            $tempHtml[] = "</div>";
+            $tempHtml[] = "<div class=\"btn btn-info pull-right \" data-clone=\"#".$idRip."\" data-box=\"#". $wrapSettings['id']."\" ".implode(" ", $addData)." onclick=\"gpCloneGroup(this)\">Nuovo</div>";
             $html = implode("", $tempHtml);
         } else {
             //TODO ERRORE se non è impostato un nome in un gruppo ripetibile.
@@ -43,14 +69,7 @@ function gpHtml_group($settings, $values) {
 
    
     // qui creo l'html che contiene tutto. Anche questo in funzione del layout
-    
-    if (@$settings['layout'] == 'horizontal_form' ) {
-        $wrapSettings = gpHtmlUtilityAttrSetting($settings, array('class'=>array("gphtml-layout-horizontal-form")));
-    } else if (@$settings['layout'] == 'inline' ) {
-         $wrapSettings = gpHtmlUtilityAttrSetting($settings, array('class'=>array("gphtml-layout-inline")));
-    } else {
-        $wrapSettings = gpHtmlUtilityAttrSetting($settings,  array('class'=>array("gphtml-default-layout")));
-    }
+  
 
     $htmlStart = "\n  <div". gpHtmlGetAttrs(array(), $wrapSettings) . ">";
   

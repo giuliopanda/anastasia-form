@@ -129,3 +129,17 @@ function gpUtilityFindblockField(that) {
     }
     return $that;
 }
+
+
+/**
+ * Per i gruppi che si ripetono la funzione che clona il gruppo
+ */
+function gpCloneGroup(that) {
+    var idClone = $(that).data('clone');
+    var box = $(that).data('box');
+    console.log(idClone);
+    $clone = $(idClone).clone();
+    $(idClone).after($clone);
+    $clone.css('display','block');
+    $clone.prop('id',null);
+}

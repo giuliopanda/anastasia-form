@@ -30,13 +30,14 @@ function gpHtml_group($settings, $values) {
                 if (!is_array($settings['repeatable'])) {
                     $settings['repeatable'] = array($settings['repeatable']);
                 }
-                $repeatableSettings = gpHtmlUtilityAttrSetting($settings['repeatable'], array('class'=>array("gphtml-repeatable"), 'data-repgroup'=>$customSettings['name']));
+                $repeatableSettings = gpHtmlUtilityAttrSetting($settings['repeatable'], array('class'=>array("gphtml-repeatable gpjs-repeatable"), 'data-repgroup'=>$customSettings['name']));
                 $tempHtml[] = "<div ".gpHtmlGetAttrs(array(), $repeatableSettings).">";
                 $tempHtml[] = gpHtml_single_group ($customSettings, $val,  $formControlSettings);
                 $tempHtml[] = "</div>";
             }
+            // clone
             $idRip = "ripeatebletemplate".uniqid();
-            $repeatableSettings = gpHtmlUtilityAttrSetting($settings['repeatable'], array('class'=>array("gphtml-repeatable"),'id'=>$idRip, 'style'=>"display:none;"));
+            $repeatableSettings = gpHtmlUtilityAttrSetting($settings['repeatable'], array('class'=>array("gphtml-repeatable gpjs-repeatableclone"),'id'=>$idRip, 'style'=>"display:none;"));
             $tempHtml[] = "<div ".gpHtmlGetAttrs(array(), $repeatableSettings).">";
             $customSettingClone = $settings;
             $addData = array();

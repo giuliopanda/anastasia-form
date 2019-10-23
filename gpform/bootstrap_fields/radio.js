@@ -15,15 +15,21 @@ function gpValidation_radio_required(that) {
     }
 
 }
-// Quando i checkbox cambiano di valore
-$(function () {
-    $('[type=radio]').click(function () {
+
+/**
+ * Se bisogna avviare una funzione alla creazione del form si mette nell'elemento da definire data-gphtmlinit con il nome della funzione da passare
+ * @param {} el
+ */
+function gphtmlInitRadio(el) {
+    $(el).change(function () {
         setRadioValue(this);
-    })
-    $('[type=radio]').each(function () {
-        setRadioValue(this);
-    })
-});
+    });
+    setRadioValue(el);
+    
+}
+
+
+
 // la funzione che compila i valori del campo hidden
 function setRadioValue(that) {
     // that è il campo input

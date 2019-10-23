@@ -18,6 +18,10 @@
                 <li><b>repeatable</b>: Se impostato permette di ripetere il gruppo di opzioni con i valori che hanno come key il name ipostato sul gruppo.</li>
             </ul>
 
+            <p>Per la parte della programmazione se bisogna avviare una funzione alla creazione del form si mette nell'elemento da definire data-gphtmlinit con il nome della funzione da passare. La funzione riceve solo l'elemento su cui esiste. Se bisogna passare altri parametri si mettono in data. Quando si clona un gruppo i nomi e gli Id vengono riscritti. Se serve di passare un id dentro una proprietà data bisogna mettere il cancelletto prima in questo modo viene riscritto anche il parametro data con il riferimento dell'id.
+            </p>
+
+
             <br>
             <h3>Ripetizione</h3>
             <p>I campi vengono ripetuti a seconda del numero di dati importati 

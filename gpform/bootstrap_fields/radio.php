@@ -60,7 +60,8 @@ function gpHtml_radio($settings, $values) {
         $opt['data-inputid'] = "#".$settings['id'];
         
         $opt['label']['class'] = 'custom-control-label';
-        
+            // Se bisogna avviare una funzione alla creazione del form si mette nell'elemento da definire data-gphtmlinit con il nome della funzione da passare
+        $opt['data-gphtmlinit'] = "gphtmlInitRadio";
         $tmp    = "\n          ".'<input '. gpHtmlGetAttrs(array('name', 'type','value', 'checked', 'required', 'disabled'), $opt) . '>';
         $tmp   .= "\n          ".'<label '. gpHtmlGetAttrs(array('for'), $opt['label']) . ' >'. gpHtmlGetAttrValue('labelname', $opt) . '</label>'."\n      ";
        if (isset($opt['invalid']) && $opt['invalid'] != "") {

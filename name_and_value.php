@@ -12,13 +12,14 @@
         <div class="container">
         
             <h2>Nomi dei campi e valori</h2>
-            <p> </p>
+        
+            <p>TODO: mancano i test con i gruppi ripetibili e con i name che hanno il punto dentro il testo</p>
             <h3>Parametri</h3>
             <ul>
                 <li><b>name</b>: Il nome del campo. Se ci sono più opzioni vengono aggiunte le parentesi quadre (tipo checkbox)</li>
                 <li><b>preview-name</b>: Nel form è il nome che raggruppa tutto il form.
                 <li><b>default</b>: Il valore di default</li>
-                <li><b>value</b>: il valore del campo</li>
+                <li><b>value</b>: il valore del campo (LO RIMUOVO?!) </li>
             </ul>
 
             <br><hr><br>

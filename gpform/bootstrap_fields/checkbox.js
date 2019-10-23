@@ -4,7 +4,7 @@ function gpValidation_checkbox_required(that) {
     var gpClass = $(that).data('checkboxgroupclass');
     if ($(that).val() == "") {
         $block = gpUtilityFindblockField(that);
-        console.log("BLOCK2 " + $block);
+        //console.log("BLOCK2 " + $block);
         $block.find("." + gpClass).each(function () {
             this.setCustomValidity("invalid");
         });
@@ -18,6 +18,7 @@ function gpValidation_checkbox_required(that) {
 
 }
 // Quando i checkbox cambiano di valore
+/*
 $(function () {
     $('[type=checkbox]').change(function () {
         setCheckboxValue(this);
@@ -26,6 +27,19 @@ $(function () {
         setCheckboxValue(this);
     })
 });
+*/
+/**
+ * Se bisogna avviare una funzione alla creazione del form si mette nell'elemento da definire data-gphtmlinit con il nome della funzione da passare
+ * @param {} el 
+ */
+
+function gphtmlInitCheckBox(el) {
+    $(el).change(function () {
+        setCheckboxValue(this);
+    })
+    setCheckboxValue(el);
+}
+
 // la funzione che compila i valori del campo hidden
 function setCheckboxValue(that) {
     // that è il checkbox
@@ -34,7 +48,7 @@ function setCheckboxValue(that) {
     var scbValues = [];
     if (rifInput != 'undefined' && rifClass != 'undefined') {
         $block = gpUtilityFindblockField(that);
-        console.log ("BLOCK "+$block);
+        //console.log ("BLOCK "+$block);
         if ($block.find('.' + rifClass).length > 1) {
             if (rifClass) {
                 $('.' + rifClass).each(function () {

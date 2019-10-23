@@ -48,10 +48,9 @@ function setCheckboxValue(that) {
     var scbValues = [];
     if (rifInput != 'undefined' && rifClass != 'undefined') {
         $block = gpUtilityFindblockField(that);
-        //console.log ("BLOCK "+$block);
         if ($block.find('.' + rifClass).length > 1) {
             if (rifClass) {
-                $('.' + rifClass).each(function () {
+                $block.find('.' + rifClass).each(function () {
                     if ($(this).is(":checked")) {
                         scbValues.push($(this).val());
                     }
@@ -63,7 +62,7 @@ function setCheckboxValue(that) {
                 $(rifInput).val('');
             }
         } else {
-            $checkbox = $('.' + rifClass).first();
+            $checkbox = $block.find('.' + rifClass).first();
             if ($checkbox.is(":checked")) {
                 $(rifInput).val($checkbox.val());
             } else {

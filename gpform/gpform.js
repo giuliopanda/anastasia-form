@@ -9,7 +9,12 @@
         // Loop over them and prevent submission
         var validation = Array.prototype.filter.call(forms, function (form) {
             form.addEventListener('submit', function (event) {
+               // $('.gpjs-formignore').css({'display':'block','background':"#FFA"});
                 // TODO Rimuovo i gruppi nascosti che servono per la duplicazione
+                $('.gpjs-formignore').each(function() {
+                    $(this).data('children', $(this).children());
+                    $(this).children().remove();
+                });
                 var ris = form.checkValidity();
                 $(form).find("*").each(function () {
                     if ($(this).attr('gp-validation')) {
@@ -20,6 +25,9 @@
                     event.preventDefault();
                     event.stopPropagation();
                     form.classList.add('was-validated');
+                    $('.gpjs-formignore').each(function () {
+                        $(this).append($(this).data('children'));
+                    });
                     // TODO riattivo i gruppi nascosti per la duplicazione
                 } 
             }, false);
@@ -62,26 +70,6 @@ function gpAddValidationArray(that, addFn) {
 }
 
 
-$(function () {
-    $('.needs-validation').each(function () {
-        $(this).find("*").each(function () {
-            if ($(this).attr('gp-validation')) {
-                if ($(this).is("input") || $(this).is("textarea")) {
-                    $(this).keyup(function () {
-                        this.setCustomValidity("");
-                        gpCheckValidation(this);
-                    });
-                }
-                $(this).change(function () {
-                    this.setCustomValidity("");
-                    gpCheckValidation(this);
-                });
-                this.gpAddCheckValidation = 't';
-            }
-        });
-
-    });
-})
 // aggiunta di validazioni javascript custom
 function gpCheckValidation(that) {
     var customFns = gpGetValidationArray(that);
@@ -127,86 +115,37 @@ function gpUtilityFindblockField(that) {
 }
 
 /**
- * INIT
+ * INIT Avvia gli script per far funzionare i field che hanno bisogno di javascript di inizializzazione
  */
 
 function gpHtmlInit(element) {
-    $(element).find('[data-gphtmlinit]').each(function() {
-        console.log("INIT: "+this);
+    $(element).each(function () {
+        console.log( "NEED!");
+        $(this).find("*").each(function () {
+            if ($(this).attr('gp-validation')) {
+                if ($(this).is("input") || $(this).is("textarea")) {
+                    $(this).keyup(function () {
+                        this.setCustomValidity("");
+                        gpCheckValidation(this);
+                    });
+                }
+                $(this).change(function () {
+                    this.setCustomValidity("");
+                    gpCheckValidation(this);
+                });
+                this.gpAddCheckValidation = 't';
+            }
+        });
+    });
+
+    $(element).find('[data-gphtmlinit]').each(function () {
         fn = $(this).data('gphtmlinit');
         if (typeof window[fn] === "function") {
             window[fn](this);
         }
     })
+
 }
 $(function () {
-    gpHtmlInit(document.body);
+    gpHtmlInit('.needs-validation');
 });
-
-/**
- * Per i gruppi che si ripetono la funzione che clona il gruppo
-* @param {} that
- */
-function gpCloneGroup(that) {
-    var idClone = $(that).data('clone');
-    var box = $(that).data('box');
-    var maxCount = 0;
-    $(box).find('.gpjs-repeatable').each(function() {
-        var d = $(this).data('repgroup').split(".");
-        count = d.pop();
-        maxCount = Math.max(maxCount, count);
-        dataRepGroup = d;
-    })
-    maxCount++;
-    dataRepGroup.push(maxCount);
-    joinDataRepGroup = dataRepGroup.join(".");
-    newDataRepGroup = dataRepGroup.shift();
-    if (dataRepGroup.length > 0) {
-        for (drg in dataRepGroup) {
-            newDataRepGroup += "[" + dataRepGroup[drg] + "]"
-        }
-    }
-
-   // console.log("dataRepGroup: " + newDataRepGroup + " " + joinDataRepGroup);
-   // console.log(idClone);
-    $clone = $(idClone).clone();
-    $clone.find('*').each(function() {
-        console.log ("ALLDATA:");
-        console.log($(this).data());
-        console.log ("END DATA");
-        allData = $(this).data();
-       
-        for (dx in allData) {
-            console.log("DATA" + allData[dx]);
-            if (allData[dx].substring(0,1) == "#") {
-                console.log("NEW DATA (" + dx + ")" + "#gp" + maxCount + allData[dx].substring(1))
-                $(this).data(dx, "#gp" + maxCount +allData[dx].substring(1));
-            }
-        }
-        
-        if ($(this).prop('name')) {
-            var oldName = $(this).attr('name');
-            if (oldName.indexOf('[]') > -1) {
-                oldName2 = oldName.replace("[]","");
-                $(this).prop('name', newDataRepGroup + "[" + oldName2 + "][]");
-            } else {
-                $(this).prop('name', newDataRepGroup + "[" + $(this).attr('name') + "]");
-            }
-        }
-        if ($(this).prop('id')) {
-            $(this).prop('id', "gp" + maxCount + $(this).prop('id'));
-        }
-        if ($(this).prop('for')) {
-            $(this).prop('for', "gp" + maxCount + $(this).prop('for'));
-        }
-
-    })
-    $(idClone).after($clone);
-    $clone.css('display','block');
-    $clone.prop('id',null);
-    $clone.addClass('gpjs-repeatable');
-    $clone.data('repgroup', joinDataRepGroup);
-    gpHtmlInit($clone.get());
-
-}
-

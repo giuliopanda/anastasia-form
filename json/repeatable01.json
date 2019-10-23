@@ -93,8 +93,11 @@
                         ]
                     }
                 ]
+            },
+            {
+                "type":"submit",
+                "text":"invia"
             }
-
         ]
     }
 }

@@ -37,7 +37,7 @@ function gpHtml_group($settings, $values) {
             }
             // clone
             $idRip = "ripeatebletemplate".uniqid();
-            $repeatableSettings = gpHtmlUtilityAttrSetting($settings['repeatable'], array('class'=>array("gphtml-repeatable gpjs-repeatableclone"),'id'=>$idRip, 'style'=>"display:none;"));
+            $repeatableSettings = gpHtmlUtilityAttrSetting($settings['repeatable'], array('class'=>array("gphtml-repeatable gp-repeatablecloned gpjs-formignore"),'id'=>$idRip, 'style'=>"display:none;"));
             $tempHtml[] = "<div ".gpHtmlGetAttrs(array(), $repeatableSettings).">";
             $customSettingClone = $settings;
             $addData = array();

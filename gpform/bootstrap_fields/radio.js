@@ -2,13 +2,14 @@
 function gpValidation_radio_required(that) {
     // that è l'input hidden
     var gpClass = $(that).data('radiogroupclass');
+    $block = gpUtilityFindblockField(that);
     if ($(that).val() == "") {
-        $("." + gpClass).each(function () {
+        $block.find("." + gpClass).each(function () {
             this.setCustomValidity("invalid");
         });
         return false;
     } else {
-        $("." + gpClass).each(function () {
+        $block.find("." + gpClass).each(function () {
             this.setCustomValidity("");
         });
         return true;

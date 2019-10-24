@@ -26,7 +26,6 @@ function gphtmlInitRadio(el) {
         setRadioValue(this);
     });
     setRadioValue(el);
-    
 }
 
 

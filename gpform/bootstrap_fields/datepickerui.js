@@ -1,58 +1,57 @@
-$(function () {
-    gpSetDatePickerui('body');
-});
 
-function gpSetDatePickerui(div) {
-    $(div).find(".jsgp-setdatepicker").each(function() {
-        var dateFormat = $(this).data('dateformat');
-        dateFormat = (dateFormat == "undefined") ? 'mm/dd/yy' : dateFormat;
-        var gpDp = $(this).datepicker({
-            showOtherMonths: true,
-            selectOtherMonths: true,
-            changeMonth: true,
-            changeYear: true,
-            dateFormat: dateFormat,
-            showButtonPanel: true,
-            showOn: "none"
-        });
-        var minDate = $(this).data('mindate');
-        if (typeof minDate != "undefined") {
-            tempD = Date.parse(minDate);
-            if (isNaN(tempD)) {
-                gpDp.datepicker("option", "minDate", minDate);
-            } else {
-                //console.log(new Date(tempD));
-                gpDp.datepicker("option", "minDate", new Date(tempD) );
-            }
-            gpAddValidationArray(this, 'gpValDatePicherMinDate');
-        }
-        var maxDate = $(this).data('maxdate');
-        if (typeof maxDate != "undefined") {
-            tempD = Date.parse(maxDate);
-            if (isNaN(tempD)) {
-                gpDp.datepicker("option", "maxDate", maxDate);
-            } else {
-                gpDp.datepicker("option", "maxDate", new Date(tempD) );
-            }
-            gpAddValidationArray(this, 'gpValDatePicherMaxDate'); 
-        }
-        // setto il bottone per il calendario
-        $(this).parent().find('label').data('gpdp', gpDp);
-        $(this).parent().find('label').click(function () {
-            $(this).data('gpdp').datepicker('show');
-        });
+
+function gphtmlInitDatePickerui(div) {
+    $(div).removeClass('hasDatepicker');
+    $(div).datepicker("destroy"); // ?!
+    var dateFormat = $(div).data('dateformat');
+    dateFormat = (dateFormat == "undefined") ? 'mm/dd/yy' : dateFormat;
+    var gpDp = $(div).datepicker({
+        showOtherMonths: true,
+        selectOtherMonths: true,
+        changeMonth: true,
+        changeYear: true,
+        dateFormat: dateFormat,
+        showButtonPanel: true,
+        showOn: "none"
     });
-    
-   // mindate e maxDate devono essere 
+  
+    var minDate = $(div).data('mindate');
+    if (typeof minDate != "undefined") {
+        tempD = Date.parse(minDate);
+        if (isNaN(tempD)) {
+            gpDp.datepicker("option", "minDate", minDate);
+        } else {
+            //console.log(new Date(tempD));
+            gpDp.datepicker("option", "minDate", new Date(tempD) );
+        }
+        gpAddValidationArray(div, 'gpValDatePicherMinDate');
+    }
+    var maxDate = $(div).data('maxdate');
+    if (typeof maxDate != "undefined") {
+        tempD = Date.parse(maxDate);
+        if (isNaN(tempD)) {
+            gpDp.datepicker("option", "maxDate", maxDate);
+        } else {
+            gpDp.datepicker("option", "maxDate", new Date(tempD) );
+        }
+        gpAddValidationArray(div, 'gpValDatePicherMaxDate'); 
+    }
+    // setto il bottone per il calendario
+    $(div).parent().find('label').data('gpdp', gpDp);
+    $(div).parent().find('label').click(function () {
+        $(this).data('gpdp').datepicker('show');
+    });
+   
 }
 
 // verifica se minDate è rispettato
 function gpValDatePicherMinDate(that) {
-    //console.log("MINDATE CHECK");
+    console.log("MINDATE CHECK");
     // non valida se è required...
     if ($(that).val() == "") {
         return true;
     }
+    console.log(that);
     var minDate = $(that).datepicker("option", "minDate");
     var currentDate = $(that).datepicker("getDate");
     if (currentDate == null || typeof currentDate == "undefined" || isNaN(currentDate) ) {

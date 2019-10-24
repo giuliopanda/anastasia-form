@@ -11,9 +11,9 @@ function gpCloneGroup(that) {
         var d = $(this).data('repgroup').split(".");
         count = d.pop();
         maxCount = Math.max(maxCount, count);
-        dataRepGroup = d;
     })
     maxCount++;
+    dataRepGroup = $(that).data('name').split(".");
     dataRepGroup.push(maxCount);
     joinDataRepGroup = dataRepGroup.join(".");
     newDataRepGroup = dataRepGroup.shift();
@@ -62,6 +62,13 @@ function gpCloneGroup(that) {
             $(this).prop('for', "gp" + maxCount + $(this).prop('for'));
         }
     })
+    // fix ion-icon error
+    $clone.find('ion-icon').each(function() {
+        $(this).removeClass('md').removeClass('hydrated');
+        $(this).after($("<ion-icon name=" + $(this).attr('name') + " class=" + $(this).attr('class') +"></ion-icon>"));
+        $(this).remove();
+    });
+    
     $(idClone).before($clone);
     $clone.css('display', 'block');
     $clone.removeAttr('id');
@@ -72,8 +79,8 @@ function gpCloneGroup(that) {
     $(idClone).find('input').each(function() {
         if ($(this).is(":invalid")) {
             $clone.find('input').each(function () {
-               // this.setCustomValidity('');
-               // this.setCustomValidity('invalid');
+               this.setCustomValidity('');
+               this.setCustomValidity('invalid');
             });
             return false;
         }

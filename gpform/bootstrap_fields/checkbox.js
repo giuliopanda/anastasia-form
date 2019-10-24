@@ -10,7 +10,7 @@ function gpValidation_checkbox_required(that) {
         });
         return false;
     } else {
-        $("." + gpClass).each(function () {
+        $block.find("." + gpClass).each(function () {
             this.setCustomValidity("");
         });
         return true;

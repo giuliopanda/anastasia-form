@@ -21,19 +21,24 @@ function gpHtml_group($settings, $values) {
 
     $html = '';
     if (isset($settings['repeatable'])) {
-        if (isset($settings['name']) &&  isset($values[$settings['name']])  && is_array($values[$settings['name']])) {
+        if (isset($settings['name'])) {
             $tempHtml = array();
             $k = 0;
-            foreach ($values[$settings['name']] as $val) {
-                $customSettings = $settings;
-                $customSettings['name'] = $customSettings['name'].".".($k++);
-                if (!is_array($settings['repeatable'])) {
-                    $settings['repeatable'] = array($settings['repeatable']);
+            if (isset($values[$settings['name']])  && is_array($values[$settings['name']])) {
+                foreach ($values[$settings['name']] as $val) {
+                    $customSettings = $settings;
+                    $customSettings['name'] = $customSettings['name'].".".($k++);
+                    if (!is_array($settings['repeatable'])) {
+                        $settings['repeatable'] = array($settings['repeatable']);
+                    }
+                    $repeatableSettings = gpHtmlUtilityAttrSetting($settings['repeatable'], array('class'=>array("gphtml-repeatable gpjs-repeatable"), 'data-repgroup'=>$customSettings['name']));
+                    $tempHtml[] = "<div ".gpHtmlGetAttrs(array(), $repeatableSettings).">";
+                    $tempHtml[] = gpHtml_single_group ($customSettings, $val,  $formControlSettings);
+                    $tempHtml[] = "</div>";
                 }
-                $repeatableSettings = gpHtmlUtilityAttrSetting($settings['repeatable'], array('class'=>array("gphtml-repeatable gpjs-repeatable"), 'data-repgroup'=>$customSettings['name']));
-                $tempHtml[] = "<div ".gpHtmlGetAttrs(array(), $repeatableSettings).">";
-                $tempHtml[] = gpHtml_single_group ($customSettings, $val,  $formControlSettings);
-                $tempHtml[] = "</div>";
+            }
+            if (!is_array($settings['repeatable'])) {
+                $settings['repeatable'] = array($settings['repeatable']);
             }
             // clone
             $idRip = "ripeatebletemplate".uniqid();
@@ -51,7 +56,7 @@ function gpHtml_group($settings, $values) {
             }
             $tempHtml[] = gpHtml_single_group ($customSettingClone, array(),  $formControlSettings);
             $tempHtml[] = "</div>";
-            $tempHtml[] = "<div class=\"btn btn-info pull-right \" data-clone=\"#".$idRip."\" data-box=\"#". $wrapSettings['id']."\" ".implode(" ", $addData)." onclick=\"gpCloneGroup(this)\">Nuovo</div>";
+            $tempHtml[] = "<div class=\"btn btn-info float-right\" data-clone=\"#".$idRip."\" data-box=\"#". $wrapSettings['id']."\" ".implode(" ", $addData)." onclick=\"gpCloneGroup(this)\">  <ion-icon name=\"add-circle\" class=\"ionicon-left\"></ion-icon> ADD NEW</div><div class=\"clearfix\"></div>";
             $html = implode("", $tempHtml);
         } else {
             //TODO ERRORE se non è impostato un nome in un gruppo ripetibile.
@@ -70,8 +75,9 @@ function gpHtml_group($settings, $values) {
 
    
     // qui creo l'html che contiene tutto. Anche questo in funzione del layout
-  
-
+    if (isset($wrapSettings['title'])) {
+        unset($wrapSettings['title']);
+    }
     $htmlStart = "\n  <div". gpHtmlGetAttrs(array(), $wrapSettings) . ">";
   
     if (isset($settings['title']) && $settings['title'] != "") {

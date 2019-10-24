@@ -4,13 +4,11 @@
         "render" : "",
         "method" : "get",
         "id" : "myForm3",
+        "default-wrap": {
+            "type": "group"
+        },
         "fields" : 
         [
-            {
-                "type":"text",
-                "label":"titolo",
-                "name":"title"
-            },
             {
                 "type": "group",
                 "title":"gruppo utenti",
@@ -95,9 +93,27 @@
                 ]
             },
             {
-                "type":"submit",
-                "text":"invia"
+                "type": "group",
+                "title": "Date",
+                "repeatable": "true",
+                "name": "dd",
+                "layout": "",
+                "fields": [
+                    {
+                        "type": "datepickerui",
+                        "name": "data",
+                        "label": "Data",
+                        "placeholder": "dd-mm-yyyy",
+                        "invalid": "Campo non valido [dd-mm-yyyy].",
+                        "date-format": "dd-mm-yy"
+                    }
+                ]
+            },
+            {
+                "type": "submit",
+                "text": "invia"
             }
+
         ]
     }
 }

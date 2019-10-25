@@ -1,17 +1,25 @@
 <?php
 function gpHtml_input($settings, $values) {
     $html = "";
-    if (isset($values[$settings['name']])) {
-        $settings['value'] = $values[$settings['name']];
-    } else {
-        $settings['value'] =  gpHtmlGetAttrValue(array('value', 'default'), $settings);
-    }
     $settings = gpHtmlUtilityAttrSetting($settings, array('class'=>array('form-control')));
-    $html = '<input'. gpHtmlGetAttrs(array('type','aria-describedby','value','placeholder', 'required', 'disabled','maxlength','max','min','pattern','step'), $settings) . '>';
+    $currValue = gpHtmlUtilityFindValue($values, $settings['nameForValue']);
+    if ( $currValue != false) {
+        $settings['value'] = $currValue;
+    }  else if (isset( $settings['default'])) {
+        $settings['value'] =  $settings['default'];
+    }
+   
+    $html = '<input'. gpHtmlGetAttrs(array('name','type','aria-describedby','value','placeholder',  'required', 'readonly', 'disabled','maxlength','max','min','pattern','step'), $settings) . '>';
     if (isset($settings['invalid']) && $settings['invalid'] != "") {
         $html .= '<div class="invalid-feedback">'.$settings['invalid'].'</div>';
     }
     return gpHtmlSetLayout($html, $settings);
+}
+/**
+ * type hidden
+ */
+function gpHtml_hidden($settings, $values) {
+    return gpHtml_input($settings, $values);
 }
 /**
  * type password

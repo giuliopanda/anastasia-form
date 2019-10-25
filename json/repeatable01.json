@@ -1,0 +1,127 @@
+{
+    "form" :
+    {
+        "render" : "",
+        "method" : "get",
+        "id" : "myForm3",
+        "default-wrap": {
+            "type": "group"
+        },
+        "fields" : 
+        [
+            {
+                "type": "group",
+                "title":"gruppo utenti",
+                "repeatable": {
+                    "clone": "true"
+                },
+                "name":"users",
+                "layout": "",
+                "fields": [
+                    {
+                        "type": "input",
+                        "name": "name",
+                        "label": "Name",
+                        "required": "true"
+                    },
+                    {
+                        "type": "input",
+                        "name": "email",
+                        "label": "Email",
+                        "required": "true"
+                    }
+                ]
+            },
+            {
+                "type": "group",
+                "title": "gruppo opzioni",
+                "repeatable": {
+                    "clone":"true"
+                },
+                "name": "checkboxes",
+                "layout": "",
+                "fields": [
+                    {
+                        "type": "checkbox",
+                        "name": "checkbox-cols",
+                        "label": "Cols",
+                        "required": "true",
+                        "elements-layout": "grid-4",
+                        "invalid": "Seleziona almeno un'opzione",
+                        "options": [
+                            {
+                                "value": "1",
+                                "label": "opzione 1"
+                            },
+                            {
+                                "value": "2",
+                                "label": "opzione 2"
+                            },
+                            {
+                                "value": "3",
+                                "label": "opzione 3"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "type": "group",
+                "title": "Radio",
+                "repeatable": {
+                    "clone": "true"
+                },
+                "name": "radios",
+                "layout": "",
+                "fields": [
+                    {
+                        "type": "radio",
+                        "name": "rd",
+                        "label": "Cols",
+                        "required": "true",
+                        "elements-layout": "inline",
+                        "invalid": "Seleziona almeno un'opzione",
+                        "options": [
+                            {
+                                "value": "1",
+                                "label": "opzione 1"
+                            },
+                            {
+                                "value": "2",
+                                "label": "opzione 2"
+                            },
+                            {
+                                "value": "3",
+                                "label": "opzione 3"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "type": "group",
+                "title": "Date",
+                "repeatable": {
+                    "clone": "true"
+                },
+                "name": "dd",
+                "layout": "",
+                "fields": [
+                    {
+                        "type": "datepickerui",
+                        "name": "data",
+                        "label": "Data",
+                        "placeholder": "dd-mm-yyyy",
+                        "invalid": "Campo non valido [dd-mm-yyyy].",
+                        "date-format": "dd-mm-yy"
+                    }
+                ]
+            },
+            {
+                "type": "submit",
+                "text": "invia"
+            }
+
+        ]
+    }
+}

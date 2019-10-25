@@ -3,23 +3,138 @@
  * Un gruppo generalmente è una riga e definisce il layout così non lo devo scrivere mille volte! 
  */
 function gpHtml_group($settings, $values) {
-    $html = array();
-   // $render = (isset($settings['render']) && trim($settings['render']) != "") ?$settings['render']."_" : '';
     $settingLayout = (isset($settings['layout'])  && $settings['layout'] != "") ? $settings['layout'] : '' ;
-    $settingColLabel = (isset($settings['col-label']) && $settings['col-label'] != "") ? $settings['col-label'] : '' ;
-    $settingColForm = (isset($settings['col-form']) && $settings['col-form'] != "") ? $settings['col-form'] : '' ;
     if ($settingLayout == 'horizontal_form' ) {
         $formControlSettings = gpHtmlUtilityAttrSetting(array('class'=>array('form-group', "gphtml-horizontal-form")));
     } else {
         $formControlSettings = gpHtmlUtilityAttrSetting(array('class'=>array('form-group')));
     }
+
+  
+    if (@$settings['layout'] == 'horizontal_form' ) {
+        $wrapSettings = gpHtmlUtilityAttrSetting($settings, array('class'=>array("gphtml-layout-horizontal-form")));
+    } else if (@$settings['layout'] == 'inline' ) {
+         $wrapSettings = gpHtmlUtilityAttrSetting($settings, array('class'=>array("gphtml-layout-inline")));
+    } else {
+        $wrapSettings = gpHtmlUtilityAttrSetting($settings,  array('class'=>array("gphtml-default-layout")));
+    }
+
+    $html = '';
+    if (isset($settings['repeatable'])) {
+        if (isset($settings['name'])) {
+            $tempHtml = array();
+            $k = 0;
+            $currValue = gpHtmlUtilityFindValue($values, $settings['name']);
+            //var_dump ($currValue);
+            if ($currValue  != false) {
+                foreach ($currValue as $val) {
+                    $customSettings = $settings;
+                    $customSettings['name'] = $customSettings['name'].".".($k++);
+                    if (!is_array($settings['repeatable'])) {
+                        $settings['repeatable'] = array($settings['repeatable']);
+                    }
+                    $repeatableSettings = gpHtmlUtilityAttrSetting($settings['repeatable'], array('class'=>array("gphtml-repeatable gpjs-repeatable"), 'data-repgroup'=>$customSettings['name']));
+                    $tempHtml[] = "<div ".gpHtmlGetAttrs(array(), $repeatableSettings).">";
+                    $tempHtml[] = gpHtml_single_group ($customSettings, $val,  $formControlSettings);
+                    $tempHtml[] = "</div>";
+                }
+            }
+            if (!is_array($settings['repeatable'])) {
+                $settings['repeatable'] = array($settings['repeatable']);
+            }
+            // Il bottone clone
+            if (isset($settings['repeatable']['clone'])  && $settings['repeatable']['clone'] == "true") {
+                $idRip = "ripeatebletemplate".uniqid();
+                $repeatableSettings = gpHtmlUtilityAttrSetting($settings['repeatable'], array('class'=>array("gphtml-repeatable gp-repeatablecloned gpjs-formignore"),'id'=>$idRip, 'style'=>"display:none;"));
+                $tempHtml[] = "<div ".gpHtmlGetAttrs(array(), $repeatableSettings).">";
+                $customSettingClone = $settings;
+                $addData = array();
+                if(isset($customSettingClone['preview-name'])) {
+                     $addData[] = "data-previewname=\"".$settings['preview-name']."\"";
+                    if(isset($customSettingClone['name'])) {
+                        $customSettingClone['name'] = $customSettingClone['preview-name'].".".$customSettingClone['name'];
+                    } else {
+                       // $customSettingClone['name'] = $customSettingClone['preview-name'];
+                    }
+                    unset($customSettingClone['preview-name']);
+                }
+                if(isset($customSettingClone['name'])) {
+                    $addData[] = "data-name=\"".$customSettingClone['name']."\"";
+                    $customSettingClone['name'] = "{".$idRip."}";
+                }
+                $tempHtml[] = gpHtml_single_group ($customSettingClone, array(),  $formControlSettings);
+                $tempHtml[] = "</div>";
+                $tempHtml[] = "<div class=\"btn btn-info float-right\" data-clone=\"#".$idRip."\" data-idrip=\"".$idRip."\" data-box=\"#". $wrapSettings['id']."\" ".implode(" ", $addData)." onclick=\"gpCloneGroup(this)\">  <ion-icon name=\"add-circle\" class=\"ionicon-left\"></ion-icon> ADD NEW</div><div class=\"clearfix\"></div>";
+            }
+            $html = implode("", $tempHtml);
+        } else {
+            //TODO ERRORE se non è impostato un nome in un gruppo ripetibile.
+           $html = "<div class\"alert alert-danger\">Le impostazioni del gruppo ripetibile non sono corrette. È necessario aggiungere la proprietà 'name' al gruppo!</div>"; 
+        }
+    } else {
+        if (isset($settings['name']) ) {
+            $currValue = gpHtmlUtilityFindValue($values, $settings['name']);
+            if ( $currValue != false) {
+                $values = $currValue;
+            }  else {
+                $values = array();
+            }
+        }
+        $html = gpHtml_single_group ($settings, $values,  $formControlSettings);
+    }
+
+   
+    // qui creo l'html che contiene tutto. Anche questo in funzione del layout
+    if (isset($wrapSettings['title'])) {
+        unset($wrapSettings['title']);
+    }
+    $htmlStart = "\n  <div". gpHtmlGetAttrs(array(), $wrapSettings) . ">";
+  
+    if (isset($settings['title']) && $settings['title'] != "") {
+        $htmlStart .= "<h3 class=\"gphtml-title\">".$settings['title']."</h3>";
+    }
+    if (isset($settings['description']) && $settings['description'] != "") {
+        $htmlStart .= "<div class=\"gphtml-desc\">".$settings['description']."</div>";
+    }
+
+    $htmlEnd = '';
+
+    if (isset($settings['footer']) && $settings['footer'] != "") {
+        $htmlEnd .=  "<div class=\"gphtml-footer\">".$settings['footer']."</div>\n  </div>";
+    } else {
+        $htmlEnd .= "\n  </div>";
+    }
+    
+    return $htmlStart.$html.$htmlEnd;
+}
+
+
+
+function gpHtml_single_group ($settings, $values,  $formControlSettings) {
+
+    $html = array();
+   // $render = (isset($settings['render']) && trim($settings['render']) != "") ?$settings['render']."_" : '';
+    $settingLayout = (isset($settings['layout'])  && $settings['layout'] != "") ? $settings['layout'] : '' ;
+    $settingColLabel = (isset($settings['col-label']) && $settings['col-label'] != "") ? $settings['col-label'] : '' ;
+    $settingColForm = (isset($settings['col-form']) && $settings['col-form'] != "") ? $settings['col-form'] : '' ;
     $divRowOpened = false;
     $countCols = 0;
     $currentCount = 0;
+
+    if (isset($settings['repeatable'])) {
+    }
+
     foreach ($settings['fields'] as $field) {
         $field['layout'] = $layout = (isset($field['layout']) && $field['layout'] != "") ? $field['layout']: $settingLayout;
         $field['col-label'] = (isset($field['col-label']) && $field['col-label'] != "") ? $field['col-label'] : $settingColLabel;
         $field['col-form'] = (isset($field['col-form']) && $field['col-form'] != "") ? $field['col-form'] : $settingColForm;
+        if (isset($settings['name'])) {
+            if (isset($settings['preview-name'])) {
+                $field['preview-name'] = $settings['preview-name'].".".$settings['name'];
+            } else {
+                $field['preview-name'] = $settings['name'];
+            }
+        }
         // NON VA BENE!!! il layout deve essere a livello di elementi del form
         if (function_exists('gpHtml_'.$field['type'])) {
             $htmlField = call_user_func_array('gpHtml_'.$field['type'], array($field, $values));
@@ -62,42 +177,19 @@ function gpHtml_group($settings, $values) {
     if (isset($divRowOpened) && $divRowOpened) {
         $html[] =  "\n  </div>\n";
     }
-    
-    // qui creo l'html che contiene tutto. Anche questo in funzione del layout
-    
-    if (@$settings['layout'] == 'horizontal_form' ) {
-        $wrapSettings = gpHtmlUtilityAttrSetting($settings, array('class'=>array("gphtml-layout-horizontal-form")));
-    } else if (@$settings['layout'] == 'inline' ) {
-         $wrapSettings = gpHtmlUtilityAttrSetting($settings, array('class'=>array("gphtml-layout-inline")));
-    } else {
-        $wrapSettings = gpHtmlUtilityAttrSetting($settings,  array('class'=>array("gphtml-default-layout")));
-    }
 
-    $htmlStart = "\n  <div". gpHtmlGetAttrs(array(), $wrapSettings) . ">";
-  
-    if (isset($settings['title']) && $settings['title'] != "") {
-        $htmlStart .= "<h3 class=\"gphtml-title\">".$settings['title']."</h3>";
-    }
-    if (isset($settings['description']) && $settings['description'] != "") {
-        $htmlStart .= "<div class=\"gphtml-desc\">".$settings['description']."</div>";
-    }
+    $htmlStart =  $htmlEnd = '';
     if (@$settings['layout'] == 'inline')  {
         $classInline = "form-inline";
         if (isset($settings['layout-inline-class'])) {
             $classInline .= " ".$settings['layout-inline-class'];
         }
-        $htmlStart .= "\n  ".'<div class="'.$classInline.'">'."\n   ";
+        $htmlStart = "\n  ".'<div class="'.$classInline.'">'."\n   ";
         
     }
-    $htmlEnd = '';
+   
     if (@$settings['layout'] == 'inline' ) {
-        $htmlEnd .= "\n  </div>";
+        $htmlEnd = "\n  </div>";
     }
-    if (isset($settings['footer']) && $settings['footer'] != "") {
-        $htmlEnd .=  "<div class=\"gphtml-footer\">".$settings['footer']."</div>\n  </div>";
-    } else {
-        $htmlEnd .= "\n  </div>";
-    }
-    
-    return $htmlStart.implode("",$html).$htmlEnd;
+    return $htmlStart . implode("", $html) . $htmlEnd;
 }

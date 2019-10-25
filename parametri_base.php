@@ -1,6 +1,7 @@
 <?php 
     // dove si trovano i singoli campi da caricare
     $fieldFolder = "bootstrap_fields";
+    require (dirname(__FILE__)."/gpform/utility.php");
     require (dirname(__FILE__)."/gpform/gpform.php");
     gpHtml_loadFolderFields($fieldFolder);
 ?><html>
@@ -27,12 +28,13 @@
                 <li><b>style</b>: gli stili css</li>
                 <li><b>class</b>: le classi dei css </li>
                 <li><b>onchange, onclick etc..</b>: i javascript</li>
+                <li><b>preview-name</b>: Un nome di partenza. Ad esempio "preview-name":"user" farà sì che tutti i nomi dei campi inclusi si chiameranno user[name]</li>
             </ul>
 
             <h3>Parametri comuni dei campi</h3>
             <ul>
                 <li><b>type</b>: checkbox</li>
-                <li><b>name</b>: Il nome del campo. Se ci sono più opzioni vengono aggiunte le parentesi quadre </li>
+                <li><b>name</b>: Il nome del campo. Se ci sono più opzioni vengono aggiunte le parentesi quadre (checkbox). Se il nome è concatenato dal punto esempio name.first apparirà name[first]. Se è presente un preview-name apparirà previewname[name][first] </li>
                 <li><b>label</b>: Il nome del label oppure un oggetto con le opzioni dei label. 
                     <ul>
                         <li><b>text</b>: il testo del label </li>
@@ -52,6 +54,7 @@
                 <li><b>onchange, onclick etc..</b>: i javascript</li>
                 <li><b>invalid</b>: Il testo quando il campo non soddisfa i criteri di verifica</li>
                 <li><b>gp-validation</b>: richiama una funzione javascript in cui viene passato il campo da validare. Ritorna true false se il campo è validato oppure no.</li>
+                <li><b>preview-name</b>: Un nome di partenza. Se già impostato si può mettere vuoto per rimuoverlo</li>
             </ul>
 
             <br><hr><br>

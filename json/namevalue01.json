@@ -1,0 +1,58 @@
+{
+    "form" :
+    {
+        "method" : "get",
+        "default-wrap": {
+            "type": "group"
+        },
+        "fields" : 
+        [
+            {
+                "type":"input",
+                "name":"name",
+                "label":"Nome"
+            },
+            {
+                "type":"radio",
+                "name":"gender",
+                "label": "Sesso",
+                "options" :
+                [
+                    {
+                        "value": "",
+                        "label": "Seleziona"
+                    },
+                    {
+                        "value":"male",
+                        "label":"Uomo"
+                    },
+                     {
+                        "value":"female",
+                        "label":"Donna"
+                    }
+                ]
+            },
+            {
+                "type": "select",
+                "name": "age",
+                "label": "Età",
+                "options": [
+                    { "value": "20" },
+                    { "value": "30" },
+                    { "value": "40" },
+                    { "value": "50" }
+                ]
+            },
+            { 
+                "type":"textarea",
+                "name":"note",
+                "rows":"8",
+                "label":"Note"
+            },
+            {
+                "type": "submit",
+                "text": "invia"
+            }
+        ]
+    }
+}

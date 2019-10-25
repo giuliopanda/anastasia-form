@@ -1,5 +1,5 @@
 <?php
-
+define("ANASTASIA_FORM","1");
 function gpHtml_loadFolderFields($dir, $relative = true) {
     if ($relative) {
         $directory = dirname(__FILE__).DIRECTORY_SEPARATOR.$dir;
@@ -40,11 +40,16 @@ function gpHtml_form($formArray, $values) {
     $count = 0;
     $render = (isset($formArray['render']) && trim($formArray['render']) != "") ?$formArray['render']."_" : '';
     $settingLayout = (isset($formArray['layout'])) ? $formArray['layout'] : '' ;
-  
+
     foreach ($formArray['fields'] as $field) {
         if (isset($formArray['id'])) {
             $field['pre-id'] = $formArray['id'];
         }
+
+        if (isset($formArray['preview-name']) && !isset($field['preview-name'])) {
+            $field['preview-name'] = $formArray['preview-name'];
+        }
+
         // parametri che vengono passati dal form  ai campi o al gruppo. Nel caso il gruppo poi deve passare questi valori ai campi 
         $field['layout'] = (isset($field['layout']) && $field['layout'] != "") ? $field['layout'] : $settingLayout;
         $count++;
@@ -118,7 +123,7 @@ function gpHtmlSetLayout($html, $setting) {
  function gpHtmlGetAttrs($arrayAttribute, $settings, $addDefault = true) {
     $string = array();
      if ($addDefault) {
-         $arrayAttribute = array_merge($arrayAttribute, array('name','class','style','id','title','alt','onclick','onblur','onchange','oncontextmenu','onfocus','oninput','oninvalid','onreset','onsearch','onselect','onsubmit'));
+         $arrayAttribute = array_merge($arrayAttribute, array('class','style','id','title','alt','onclick','onblur','onchange','oncontextmenu','onfocus','oninput','oninvalid','onreset','onsearch','onselect','onsubmit'));
         $arrayAttribute = array_unique($arrayAttribute);
         foreach ($settings as $att=>$_val) {
             if (substr($att,0,5) == "data-" || substr($att,0,2) == "v-" || substr($att,0,3) == "gp-") {
@@ -235,16 +240,18 @@ function gpHtmlAddAttrValue($attributeArray, $array) {
  * Utility per il setting degli attributi degli elementi html. In particolare inserisce l'id se non esisteva e divide gli attributi per il label.
  */
 function gpHtmlUtilityAttrSetting($settings, $add = false) {
-    if (!isset($settings['id'])) {
-        $string = (isset($settings['name'])) ? $settings['name'] : ((isset($settings['labelname'])) ? $settings['labelname'] : '');
-        if ($string != "") {
-            $string = str_replace(array(' ',"-"), '_', strtolower($string)); 
-            $settings['name-clean']  = preg_replace('/[^A-Za-z0-9\-]/', '', $string);
-            if (isset ($settings['pre-id'])) {
-                $settings['id'] = "gpi".$settings['pre-id'].$settings['name-clean'];
-            } else {
-                $settings['id'] = "gpi".$settings['name-clean'];
-            }
+   
+    if (!isset($settings['id']) && isset($settings['name'])) {
+        if(isset($settings['preview-name']) && $settings['preview-name'] !="") {
+            $string  = str_replace(array(' ',"-"), '_', strtolower(trim($settings['preview-name'])))."_".str_replace(array(' ',"-"), '_', strtolower(trim($settings['name'])));
+        } else {
+            $string = str_replace(array(' ',"-"), '_', strtolower(trim($settings['name']))); 
+        }
+        $settings['_name-clean']  = preg_replace('/[^A-Za-z0-9\-]/', '', $string);
+        if (isset ($settings['pre-id'])) {
+            $settings['id'] = "gpi".$settings['pre-id'].$settings['_name-clean'];
+        } else {
+            $settings['id'] = "gpi".$settings['_name-clean'];
         }
     }
     if (!isset($settings['labelname'])) {
@@ -286,65 +293,80 @@ function gpHtmlUtilityAttrSetting($settings, $add = false) {
         foreach ($add as $key=>$value) {
             if (!isset($settings[$key])) {
                 $settings[$key] = $value;
-            } else if (is_array($value) || is_array($settings[$key])) {
-                
+            } else if (is_array($value) || is_array($settings[$key])) { 
+               
                 if (!is_array($settings[$key])) {
-                    if (is_string($settings[$key])) {
                         $settings[$key] = array($settings[$key]);
-                    }
                 }
                 if (is_array($value) ) {
                     $settings[$key] = array_merge($settings[$key], $value);
                 } else {
-                    $settings[$key] = array_merge($settings[$key], array($value));
+                    if ($key == "style") {
+                        $newValue = array();
+                        $value = array_filter(explode(";", $value));
+                        foreach ($value as $vt) {
+                            $vtt = explode(":", $vt);
+                            $newValue[$vtt[0]] = $vtt[1];
+                        }
+                         $value =  $newValue;
+                        $settings[$key] = array_merge($settings[$key], $value);
+                    } else {
+                        $settings[$key] = array_merge($settings[$key], array($value));
+                    }
                    
                 }
-            }
+            } 
         }
     }
-     if (isset($settings['name'])) {
-        $settings['name'] = trim ($settings['name']);
-        if (strpos($settings['name'],".") > 0) {
+    if (isset($settings['name'])) {
+       
+        $settings['nameForValue'] = $settings['name'];
+        if(isset($settings['preview-name']) && $settings['preview-name'] !="") {
+            $settings['name'] = trim($settings['preview-name']).".".trim ($settings['name']);
+        } else {
+            $settings['name'] = trim ($settings['name']);
+        }
+        if (strpos($settings['name'], ".") > 0) {
             $tempName = explode(".", $settings['name']);
-            $settings['name'] = array_shift($tempName);
+            //$settings['nameForValue'] =$tempName[count($tempName) - 1];
+            $settings['name'] = trim(array_shift($tempName));
             foreach ($tempName as $tp) {
                 $settings['name'] .= "[".trim($tp)."]";
             }
+        } elseif(isset($settings['preview-name']) && $settings['preview-name'] !="") {
+            $settings['name'] = $settings['preview-name']."[". $settings['name']."]";
         }
     } 
 
     return $settings;
 }
 
+
 /**
- * Decode del json
+ * Trova il valore di un array multiplo dato un percorso con il punto
+ * esempio values : {"a":{"b":"ciao"}}  name = a.b 
  */
-function gpJsonDecode($string) {
-    $json = json_decode($string, true);
-    $error = true;
-    switch (json_last_error()) {
-        case JSON_ERROR_NONE:
-            $error = false;
-           // echo ' - No errors';
-        break;
-        case JSON_ERROR_DEPTH:
-         //   echo ' - Maximum stack depth exceeded';
-        break;
-        case JSON_ERROR_STATE_MISMATCH:
-         //   echo ' - Underflow or the modes mismatch';
-        break;
-        case JSON_ERROR_CTRL_CHAR:
-         //   echo ' - Unexpected control character found';
-        break;
-        case JSON_ERROR_SYNTAX:
-         //   echo ' - Syntax error, malformed JSON';
-        break;
-        case JSON_ERROR_UTF8:
-         //   echo ' - Malformed UTF-8 characters, possibly incorrectly encoded';
-        break;
-        default:
-         //   echo ' - Unknown error';
-        break;
+function gpHtmlUtilityFindValue($values, $name) {
+    if (!is_array($values) || !is_string($name) ) {
+        return false;
     }
-    return ($error) ? false : $json;
+    $names = explode(".", $name);
+    $currValues = $values;
+    if (count($names) > 0) {
+        foreach ($names as $n) {
+            if (isset($currValues[$n])) {
+                $currValues = $currValues[$n];
+            } else {
+                return false;
+            }
+        }
+        return $currValues;
+    } else {
+        if (isset($currValues[$name])) {
+            $currValues = $currValues[$name];
+        } else {
+            return false;
+        }
+    }
+    return false;
 }

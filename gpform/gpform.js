@@ -4,13 +4,17 @@
 (function () {
     'use strict';
     window.addEventListener('load', function () {
-
         // Fetch all the forms we want to apply custom Bootstrap validation styles to
         var forms = document.getElementsByClassName('needs-validation');
-
         // Loop over them and prevent submission
         var validation = Array.prototype.filter.call(forms, function (form) {
             form.addEventListener('submit', function (event) {
+               // $('.gpjs-formignore').css({'display':'block','background':"#FFA"});
+                // TODO Rimuovo i gruppi nascosti che servono per la duplicazione
+                $('.gpjs-formignore').each(function() {
+                    $(this).data('children', $(this).children());
+                    $(this).children().remove();
+                });
                 var ris = form.checkValidity();
                 $(form).find("*").each(function () {
                     if ($(this).attr('gp-validation')) {
@@ -21,9 +25,11 @@
                     event.preventDefault();
                     event.stopPropagation();
                     form.classList.add('was-validated');
-                }
-
-
+                    $('.gpjs-formignore').each(function () {
+                        $(this).append($(this).data('children'));
+                    });
+                    // TODO riattivo i gruppi nascosti per la duplicazione
+                } 
             }, false);
         });
     }, false);
@@ -46,15 +52,13 @@ function gpAddValidationArray(that, addFn) {
         gpValidation = addFn;
     }
     $(that).attr('gp-validation', gpValidation);
-    console.log("ADD GPVAL " + gpValidation);
+    //console.log("ADD GPVAL " + gpValidation);
     if (that.gpAddCheckValidation != "t") {
-      
         if ($(that).is("input") || $(that).is("textarea")) {
             $(that).keyup(function () {
                 that.setCustomValidity("");
                 gpCheckValidation(that);
             });
-
         }
         $(that).change(function () {
             that.setCustomValidity("");
@@ -66,26 +70,6 @@ function gpAddValidationArray(that, addFn) {
 }
 
 
-$(function () {
-    $('.needs-validation').each(function () {
-        $(this).find("*").each(function () {
-            if ($(this).attr('gp-validation')) {
-                if ($(this).is("input") || $(this).is("textarea")) {
-                    $(this).keyup(function () {
-                        this.setCustomValidity("");
-                        gpCheckValidation(this);
-                    });
-                }
-                $(this).change(function () {
-                    this.setCustomValidity("");
-                    gpCheckValidation(this);
-                });
-                this.gpAddCheckValidation = 't';
-            }
-        });
-
-    });
-})
 // aggiunta di validazioni javascript custom
 function gpCheckValidation(that) {
     var customFns = gpGetValidationArray(that);
@@ -129,3 +113,39 @@ function gpUtilityFindblockField(that) {
     }
     return $that;
 }
+
+/**
+ * INIT Avvia gli script per far funzionare i field che hanno bisogno di javascript di inizializzazione
+ */
+
+function gpHtmlInit(element) {
+    $(element).each(function () {
+        console.log( "NEED!");
+        $(this).find("*").each(function () {
+            if ($(this).attr('gp-validation')) {
+                if ($(this).is("input") || $(this).is("textarea")) {
+                    $(this).keyup(function () {
+                        this.setCustomValidity("");
+                        gpCheckValidation(this);
+                    });
+                }
+                $(this).change(function () {
+                    this.setCustomValidity("");
+                    gpCheckValidation(this);
+                });
+                this.gpAddCheckValidation = 't';
+            }
+        });
+    });
+
+    $(element).find('[data-gphtmlinit]').each(function () {
+        fn = $(this).data('gphtmlinit');
+        if (typeof window[fn] === "function") {
+            window[fn](this);
+        }
+    })
+
+}
+$(function () {
+    gpHtmlInit('.needs-validation');
+});

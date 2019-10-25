@@ -1,6 +1,7 @@
 <?php 
     // dove si trovano i singoli campi da caricare
     $fieldFolder = "bootstrap_fields";
+    require (dirname(__FILE__)."/gpform/utility.php");
     require (dirname(__FILE__)."/gpform/gpform.php");
     gpHtml_loadFolderFields($fieldFolder);
 ?><html>
@@ -78,13 +79,7 @@
             <pre style ="max-height:300px; background:#F2F2F2"> <?php echo $json; ?></pre> 
             <?php gpHtml_echoForm($dataForm); ?>  
 
-
-
             <h4> Hide/Show gruppo (e default) </h4>
-
-            <h4> Clona gruppo (repeateble) </h4>
-
-            <h4> Rendi i campi all'interno del gruppo ordinabili</h4>
         </div>
     </body>
 </html>

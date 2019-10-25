@@ -1,6 +1,7 @@
 <?php 
     // dove si trovano i singoli campi da caricare
     $fieldFolder = "bootstrap_fields";
+    require (dirname(__FILE__)."/gpform/utility.php");
     require (dirname(__FILE__)."/gpform/gpform.php");
     gpHtml_loadFolderFields($fieldFolder);
 ?><html>
@@ -15,7 +16,7 @@
             <h3>Parametri comuni dei campi</h3>
             <ul>
                 <li><b>type</b>: checkbox</li>
-                <li><b>name</b>: Il nome del campo. Se ci sono più opzioni vengono aggiunte le parentesi quadre </li>
+                <li><b>name</b>: Il nome del campo. Se ci sono più opzioni vengono aggiunte le parentesi quadre (tipo checkbox)</li>
                 <li><b>label</b>: Il nome del label oppure un oggetto con le opzioni dei label. 
                     <ul>
                         <li><b>text</b>: il testo del label </li>

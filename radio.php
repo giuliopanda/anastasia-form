@@ -1,6 +1,7 @@
 <?php 
     // dove si trovano i singoli campi da caricare
     $fieldFolder = "bootstrap_fields";
+    require (dirname(__FILE__)."/gpform/utility.php");
     require (dirname(__FILE__)."/gpform/gpform.php");
     gpHtml_loadFolderFields($fieldFolder);
 ?><html>
@@ -35,13 +36,14 @@
         <?php
         $json = file_get_contents(dirname(__FILE__)."/json/radio01.json"); 
         $dataForm = gpJsonDecode($json);
+        $data = array('radio-example02'=>2);
         ?>
          <div class="row">
             <div class="col-sm">
                 <pre style ="max-height:300px; background:#F2F2F2"> <?php echo $json; ?></pre> 
             </div>
             <div class="col-sm">
-            <?php gpHtml_echoForm($dataForm); ?>  
+            <?php gpHtml_echoForm($dataForm, $data); ?>  
             </div>
         </div> 
        
@@ -54,6 +56,14 @@
          <div class="row">
             <div class="col-sm">
                 <pre style ="max-height:300px; background:#F2F2F2"> <?php echo $json; ?></pre> 
+
+                <p>Impostando una validazione attraverso una funzione personalizzata si può usare la funzione <b>gpValidation_radio_utility</b> per colorare correttamente i campi</p>
+                <pre style="max-height:300px; background:#F2F2F2">&lt;script&gt;
+    function onlyyes(that) {
+        var ris =  ($(that).val() == &apos;1&apos;);
+        return gpValidation_radio_utility(that, ris);
+    }
+&lt;/script&gt;</pre>
             </div>
             <div class="col-sm">
             <?php gpHtml_echoForm($dataForm); ?>  
@@ -77,7 +87,8 @@
         </div>
         <script>
         function onlyyes(that) {
-            return ($(that).val() == '1');
+            var ris =  ($(that).val() == '1');
+            return gpValidation_radio_utility(that, ris);
         }
         </script>
     </body>

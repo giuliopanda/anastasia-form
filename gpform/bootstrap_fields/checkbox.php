@@ -11,8 +11,8 @@ function gpHtml_checkbox($settings, $values) {
         $values[$settings['name']] = $settings['default'];
     }
     $tempUniqid =  uniqid();
-    if (!isset($settings['name-clean'])) {
-        $settings['clean-name'] = $tempUniqid;
+    if (!isset($settings['_name-clean'])) {
+        $settings['_name-clean'] = $tempUniqid;
     }
     if (!isset($settings['id'])) {
          $settings['id'] = "gpi".$tempUniqid;
@@ -21,9 +21,9 @@ function gpHtml_checkbox($settings, $values) {
          $settings['name'] = "temporaly_name_".$tempUniqid;
     }
      if (isset ($settings['pre-id'])) {
-        $class= "jscheckbox-".$settings['pre-id'].$settings['name-clean'];
+        $class= "jscheckbox-".$settings['pre-id'].$settings['_name-clean'];
     } else {
-        $class= "jscheckbox-".$settings['name-clean'];
+        $class= "jscheckbox-".$settings['_name-clean'];
     }
     $colGrid = $colCount = $divRowOpened = 0;
     if  (isset($settings["elements-layout"]) && substr($settings["elements-layout"],0,5) == "grid-") {
@@ -93,8 +93,12 @@ function gpHtml_checkbox($settings, $values) {
     } else {
         $required = "";
     }
-
-    $html .= '  <input type="text" id="'.$settings['id'].'" name="'.$settings['name'].'-mergecheckbox" value="'.htmlentities($value).'" class="form-control"'.$required.'data-checkboxgroupclass="'.$class.'" style="display:none">'."\n    ";
+    if (substr($settings['name'],-1) == "]" ) {
+        $mergeCheckName = substr($settings['name'],0,-1).'-mergecheckbox]';
+    } else {
+        $mergeCheckName = $settings['name'].'-mergecheckbox';
+    }
+    $html .= '  <input type="text" id="'.$settings['id'].'" name="'.$mergeCheckName .'" value="'.htmlentities($value).'" class="form-control"'.$required.'data-checkboxgroupclass="'.$class.'" style="display:none">'."\n    ";
     if (isset($settings['invalid']) && $settings['invalid'] != "") {
         $html .= '<div class="invalid-feedback">'.$settings['invalid'].'</div>';
     }
@@ -103,47 +107,52 @@ function gpHtml_checkbox($settings, $values) {
 
 
 function gpHtml_checkbox_option($optKey, $opt, $values, $settings, $class, $colGrid, $colCount, $divRowOpened) {
-    if (isset($opt['value']) && isset($values[$settings['name']])) {
-            if (is_array($values[$settings['name']])) {
-                if (in_array($opt['value'], $values[$settings['name']])) {
-                    $opt['checked'] = true;
-                }
-            } else if ($values[$settings['name']] == $opt['value']) {
+    $val = gpHtmlUtilityFindValue($values, $settings['nameForValue']);
+    if ($val == false && isset($settings['default'])) {
+        $val  = $settings['default'];
+    }
+    if (isset($opt['value']) && isset($val)) {
+        if (is_array($val)) {
+            if (in_array($opt['value'], $val)) {
                 $opt['checked'] = true;
             }
+        } else if ($val == $opt['value']) {
+            $opt['checked'] = true;
         }
-        $opt['name'] = $settings['name'];
-      
-        if (isset($settings["gp-validation"])) {
-            $opt["gp-validation"] = $settings["gp-validation"];
+    }
+    $opt['name'] = $settings['name'];
+    
+    if (isset($settings["gp-validation"])) {
+        $opt["gp-validation"] = $settings["gp-validation"];
+    }
+    $opt['id'] = "temp_".uniqid();
+    $opt = gpHtmlUtilityAttrSetting($opt, array('class'=>array('custom-control-input', $class),'data-checkboxgroupclass'=>$class,'type'=>"checkbox"));
+    
+    if (count ($settings['options']) > 1) {
+        $opt['name'] .= "[]";
+    }
+    $opt['data-inputid'] = "#".$settings['id'];
+    
+    $opt['label']['class'] = 'custom-control-label';
+    // Se bisogna avviare una funzione alla creazione del form si mette nell'elemento da definire data-gphtmlinit con il nome della funzione da passare
+    $opt['data-gphtmlinit'] = "gphtmlInitCheckBox";
+    $tmp    = "\n          ".'<input '. gpHtmlGetAttrs(array('name', 'type', 'value', 'checked', 'required', 'disabled'), $opt) . '>';
+    $tmp   .= "\n          ".'<label '. gpHtmlGetAttrs(array('for'), $opt['label']) . ' >'. gpHtmlGetAttrValue('labelname', $opt) . '</label>'."\n      ";
+    if (isset($opt['invalid']) && $opt['invalid'] != "") {
+        $tmp .= '<div class="invalid-feedback">'.$opt['invalid'].'</div>';
+    }
+    $addClassElLayout =  (isset($settings["elements-layout"]) && $settings["elements-layout"] == "inline") ? ' custom-control-inline ' : '';
+    $optionNewRow =  "\n      ".'<div class="custom-control custom-checkbox'.$addClassElLayout.'">'.$tmp.'</div>';
+    if  (isset($settings["elements-layout"]) && substr($settings["elements-layout"],0,5) == "grid-") {
+        $optionNewRow = '<div class="col-sm-'.$colGrid.'">'.$optionNewRow.'</div>';
+        if ($optKey%$colCount == 0)  {
+            $divRowOpened = true;
+            $optionNewRow = '<div class="row">'. $optionNewRow;
+        } 
+        if ($optKey%$colCount == $colCount-1)  {
+            $divRowOpened = false;
+            $optionNewRow =  $optionNewRow."</div>";
         }
-        $opt['id'] = "temp_".uniqid();
-        $opt = gpHtmlUtilityAttrSetting($opt, array('class'=>array('custom-control-input', $class),'data-checkboxgroupclass'=>$class,'type'=>"checkbox"));
-        
-        if (count ($settings['options']) > 1) {
-            $opt['name'] .= "[]";
-        }
-        $opt['data-inputid'] = "#".$settings['id'];
-        
-        $opt['label']['class'] = 'custom-control-label';
-        
-        $tmp    = "\n          ".'<input '. gpHtmlGetAttrs(array('type','value', 'checked', 'required', 'disabled'), $opt) . '>';
-        $tmp   .= "\n          ".'<label '. gpHtmlGetAttrs(array('for'), $opt['label']) . ' >'. gpHtmlGetAttrValue('labelname', $opt) . '</label>'."\n      ";
-       if (isset($opt['invalid']) && $opt['invalid'] != "") {
-            $tmp .= '<div class="invalid-feedback">'.$opt['invalid'].'</div>';
-        }
-        $addClassElLayout =  (isset($settings["elements-layout"]) && $settings["elements-layout"] == "inline") ? ' custom-control-inline ' : '';
-        $optionNewRow =  "\n      ".'<div class="custom-control custom-checkbox'.$addClassElLayout.'">'.$tmp.'</div>';
-        if  (isset($settings["elements-layout"]) && substr($settings["elements-layout"],0,5) == "grid-") {
-            $optionNewRow = '<div class="col-sm-'.$colGrid.'">'.$optionNewRow.'</div>';
-            if ($optKey%$colCount == 0)  {
-                $divRowOpened = true;
-                $optionNewRow = '<div class="row">'. $optionNewRow;
-            } 
-            if ($optKey%$colCount == $colCount-1)  {
-                $divRowOpened = false;
-                $optionNewRow =  $optionNewRow."</div>";
-            }
-        }
-        return array($optionNewRow, $divRowOpened);
+    }
+    return array($optionNewRow, $divRowOpened);
 }

@@ -5,11 +5,7 @@
 function gpHtml_datepickerui($settings, $values) {
     $settings['type'] = "input";
     $html = "";
-    if (isset($values[$settings['name']])) {
-        $settings['value'] = $values[$settings['name']];
-    } else {
-        $settings['value'] =  gpHtmlGetAttrValue(array('value', 'default'), $settings);
-    }
+  
     if (isset($settings['date-format'])) {
         $settings['data-dateformat'] = $settings['date-format'];
         $settings['date-format'] = str_replace("\\","\\\\", $settings['date-format']);
@@ -30,6 +26,12 @@ function gpHtml_datepickerui($settings, $values) {
     }
     $settings['data-gphtmlinit'] = "gphtmlInitDatePickerui";
     $settings = gpHtmlUtilityAttrSetting($settings, array('class'=>array('form-control jsgp-setdatepicker')));
+    $currValue = gpHtmlUtilityFindValue($values, $settings['nameForValue']);
+    if ( $currValue != false) {
+        $settings['value'] = $currValue;
+    }  else if (isset( $settings['default'])) {
+        $settings['value'] =  $settings['default'];
+    }
     $html = "\n  ".'<div class="input-group mb-3">'."\n    ".'<input'. gpHtmlGetAttrs(array('type','aria-describedby','value','placeholder', 'required', 'disabled','maxlength','max','min','pattern','step'), $settings) . '>'."\n    ".'<div class="input-group-append">'."\n    ".'<label class="input-group-text" for="inputGroupSelect02"><ion-icon name="calendar" class="ionicon-button"></ion-icon></label>'."\n    ".'</div>'."\n  ";
 
     if (isset($settings['invalid']) && $settings['invalid'] != "") {

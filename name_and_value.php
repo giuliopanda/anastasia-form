@@ -78,7 +78,7 @@
             <div class="row">
                 <div class="col-sm">
                     <pre style ="max-height:200px; background:#F2F2F2"> <?php echo $json; ?></pre> 
-                    <pre style ="max-height:200px; background:#F2F2F2"> <?php var_dump ($data); ?></pre> 
+                    <pre style ="max-height:200px; background:#F2F2F2"> <?php print_r ($data); ?></pre> 
                 </div>
                 <div class="col-sm">
                 <?php gpHtml_echoForm($dataForm, $data); ?>  

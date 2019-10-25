@@ -40,8 +40,8 @@
             $data['users'][] = array('name'=>"Sofia","email"=>"sofia@gmail.com");
             $data['checkboxes'][] = array('checkbox-cols'=>array(1,2));
             $data['checkboxes'][] = array('checkbox-cols'=>array());
-            $data['radios'][] = array('rd'=>array());
-            $data['radios'][] = array('rd'=>array("1"));
+            $data['radios'][] = array('rd'=>'');
+            $data['radios'][] = array('rd'=>"1");
             $dataForm = gpJsonDecode($json);
             ?>
             <div class="row">
@@ -62,7 +62,7 @@
             $data['users']= array(array('name'=>"Giulio"), array('name'=>"Sofia"));
             $data['users2']= array(array('name'=>"Giulio"), array('name'=>"Sofia"));
             $data['checkboxes'][] = array('checkbox-cols'=>array(1,2));
-            $data['radios'][] = array('rd'=>array());
+            $data['radios'][] = array('rd'=>'');
             $dataForm = gpJsonDecode($json);
             ?>
             <div class="row">

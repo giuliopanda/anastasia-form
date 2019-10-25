@@ -36,6 +36,9 @@ function gpHtml_radio($settings, $values) {
         $settings['options'] =  call_user_func_array($settings['options-function'], array($settings, $values));
     }
     $val = gpHtmlUtilityFindValue($values, $settings['nameForValue']);
+    if (is_array($val)) {
+        $val = array_shift($val);
+    }
     if ($val == false && isset($settings['default'])) {
         $val  = $settings['default'];
     }

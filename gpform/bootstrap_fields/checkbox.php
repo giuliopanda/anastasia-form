@@ -107,15 +107,16 @@ function gpHtml_checkbox($settings, $values) {
 
 
 function gpHtml_checkbox_option($optKey, $opt, $values, $settings, $class, $colGrid, $colCount, $divRowOpened) {
-    if (!isset($values[$settings['nameForValue']])) {
-        $values[$settings['nameForValue']] =   gpHtmlGetAttrValue(array('value', 'default'), $settings);
+    $val = gpHtmlUtilityFindValue($values, $settings['nameForValue']);
+    if ($val == false && isset($settings['default'])) {
+        $val  = $settings['default'];
     }
-    if (isset($opt['value']) && isset($values[$settings['nameForValue']])) {
-        if (is_array($values[$settings['nameForValue']])) {
-            if (in_array($opt['value'], $values[$settings['nameForValue']])) {
+    if (isset($opt['value']) && isset($val)) {
+        if (is_array($val)) {
+            if (in_array($opt['value'], $val)) {
                 $opt['checked'] = true;
             }
-        } else if ($values[$settings['nameForValue']] == $opt['value']) {
+        } else if ($val == $opt['value']) {
             $opt['checked'] = true;
         }
     }

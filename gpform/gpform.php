@@ -328,7 +328,7 @@ function gpHtmlUtilityAttrSetting($settings, $add = false) {
         }
         if (strpos($settings['name'], ".") > 0) {
             $tempName = explode(".", $settings['name']);
-            $settings['nameForValue'] =$tempName[count($tempName) - 1];
+            //$settings['nameForValue'] =$tempName[count($tempName) - 1];
             $settings['name'] = trim(array_shift($tempName));
             foreach ($tempName as $tp) {
                 $settings['name'] .= "[".trim($tp)."]";

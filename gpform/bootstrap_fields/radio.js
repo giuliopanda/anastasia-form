@@ -1,20 +1,26 @@
-// Validazione dei checkbox 
+// Validazione dei radio 
 function gpValidation_radio_required(that) {
     // that è l'input hidden
+    var ris = ($(that).val() != "");
+    return gpValidation_radio_utility(that, ris);
+   
+}
+
+function gpValidation_radio_utility(that, result) {
     var gpClass = $(that).data('radiogroupclass');
     $block = gpUtilityFindblockField(that);
-    if ($(that).val() == "") {
-        $block.find("." + gpClass).each(function () {
-            this.setCustomValidity("invalid");
-        });
-        return false;
-    } else {
+    if (result) {
         $block.find("." + gpClass).each(function () {
             this.setCustomValidity("");
         });
         return true;
+    } else {
+        $block.find("." + gpClass).each(function () {
+            this.setCustomValidity("invalid");
+        });
+        return false;
+      
     }
-
 }
 
 /**

@@ -2,11 +2,13 @@
 function gpHtml_input($settings, $values) {
     $html = "";
     $settings = gpHtmlUtilityAttrSetting($settings, array('class'=>array('form-control')));
-    if (isset($values[$settings['nameForValue']])) {
-        $settings['value'] = $values[$settings['nameForValue']];
-    } else {
-        $settings['value'] =  gpHtmlGetAttrValue(array('value', 'default'), $settings);
+    $currValue = gpHtmlUtilityFindValue($values, $settings['nameForValue']);
+    if ( $currValue != false) {
+        $settings['value'] = $currValue;
+    }  else if (isset( $settings['default'])) {
+        $settings['value'] =  $settings['default'];
     }
+   
     $html = '<input'. gpHtmlGetAttrs(array('name','type','aria-describedby','value','placeholder',  'required', 'readonly', 'disabled','maxlength','max','min','pattern','step'), $settings) . '>';
     if (isset($settings['invalid']) && $settings['invalid'] != "") {
         $html .= '<div class="invalid-feedback">'.$settings['invalid'].'</div>';

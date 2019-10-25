@@ -7,9 +7,8 @@ function gpHtml_radio($settings, $values) {
     $html = "";
     $options = array();
     $settings = gpHtmlUtilityAttrSetting($settings);
-    if (!isset($values[$settings['name']]) && isset($settings['default'])) {
-        $values[$settings['name']] = $settings['default'];
-    }
+    
+    
     $tempUniqid =  uniqid();
     if (!isset($settings['_name-clean'])) {
         $settings['clean-name'] = $tempUniqid;
@@ -36,21 +35,15 @@ function gpHtml_radio($settings, $values) {
     if (isset($settings['options-function']) && function_exists($settings['options-function']))  {
         $settings['options'] =  call_user_func_array($settings['options-function'], array($settings, $values));
     }
+    $val = gpHtmlUtilityFindValue($values, $settings['nameForValue']);
+    if ($val == false && isset($settings['default'])) {
+        $val  = $settings['default'];
+    }
     foreach ($settings['options'] as $optKey => $opt)  {
-         if (!isset($values[$settings['nameForValue']])) {
-            $values[$settings['nameForValue']] =   gpHtmlGetAttrValue(array('value', 'default'), $settings);
-        }
-        if (isset($opt['value']) && isset($values[$settings['nameForValue']])) {
-            if (is_array($values[$settings['nameForValue']])) {
-                if (in_array($opt['value'], $values[$settings['nameForValue']])) {
-                    $opt['checked'] = true;
-                }
-            } else if ($values[$settings['nameForValue']] == $opt['value']) {
-                $opt['checked'] = true;
-            }
+        if (isset($opt['value']) && $val != false && $val == $opt['value']) {
+             $opt['checked'] = true;
         }
         $opt['name'] = $settings['name'];
-      
         if (isset($settings["gp-validation"])) {
             $opt["gp-validation"] = $settings["gp-validation"];
         }
@@ -91,16 +84,7 @@ function gpHtml_radio($settings, $values) {
     // <div class="row">
   //  <div class="col-sm">
     $html .= implode("", $options)."\n    ";
-    if (isset($values[$settings['name']])) {
-        if (is_array($values[$settings['name']])) {
-            $value = json_encode($values[$settings['name']]);
-        } else {
-            $value =  $values[$settings['name']];
-        }
-    } else {
-        $value = "";
-    }
-
+    
     $gpVal = array();
     if (isset($settings['required']) && $settings['required'] == "true") {
         $gpVal[] = 'gpValidation_radio_required';
@@ -122,7 +106,7 @@ function gpHtml_radio($settings, $values) {
     } else {
         $mergeCheckName = $settings['name'].'-mergeradio';
     }
-    $html .= '  <input type="text" id="'.$settings['id'].'" name="'.$mergeCheckName.'" value="'.htmlentities($value).'" class="form-control"'.$required.'data-radiogroupclass="'.$class.'" style="display:none">'."\n    ";
+    $html .= '  <input type="text" id="'.$settings['id'].'" name="'.$mergeCheckName.'" value="'.htmlentities($val).'" class="form-control"'.$required.'data-radiogroupclass="'.$class.'" style="display:none">'."\n    ";
     if (isset($settings['invalid']) && $settings['invalid'] != "") {
         $html .= '<div class="invalid-feedback">'.$settings['invalid'].'</div>';
     }

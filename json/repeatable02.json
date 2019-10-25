@@ -1,0 +1,64 @@
+{
+    "form" :
+    {
+        "render" : "",
+        "method" : "get",
+        "id" : "myForm3",
+        "default-wrap": {
+            "type": "group"
+        },
+        "fields" : 
+        [
+            {
+                "type": "group",
+                "title":"Clone true",
+                "repeatable": {
+                    "clone": "true",
+                    "style": {
+                        "background": "#C2DFC9"
+                    },
+                    "class": "add-class-clone"
+                },
+                "name":"users",
+                "layout": "",
+                "fields": [
+                    {
+                        "type": "input",
+                        "name": "name",
+                        "label": "Name",
+                        "required": "true"
+                    }
+                ]
+            },
+            {
+                "type": "group",
+                "title": "Clone false",
+                "style": {
+                    "padding":"20px",
+                    "border":"1px solid #F00",
+                    "margin-top":"10px"
+                },
+                "repeatable": {
+                    "clone": "false",
+                    "style": {"background":"#F2FFC0"},
+                    "class": "add-class-clone"
+                },
+                "name": "users2",
+                "layout": "",
+                "fields": [
+                    {
+                        "type": "input",
+                        "name": "name",
+                        "label": "Name",
+                        "required": "true"
+                    }
+                ]
+            },
+            {
+                "type": "submit",
+                "text": "invia"
+            }
+
+        ]
+    }
+}

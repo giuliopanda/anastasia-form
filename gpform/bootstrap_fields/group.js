@@ -5,7 +5,10 @@
  */
 function gpCloneGroup(that) {
     var idClone = $(that).data('clone');
+    //console.log("BOX: " + $(that).data('box'));
     var box = $(that).data('box');
+    var nameReplace = "{" + $(that).data('idrip') + "}";
+  //  console.log("TODO: NAMEREPLACE: " + nameReplace);
     var maxCount = 0;
     $(box).find('.gpjs-repeatable').each(function () {
         var d = $(this).data('repgroup').split(".");
@@ -14,15 +17,17 @@ function gpCloneGroup(that) {
     })
     maxCount++;
     dataRepGroup = $(that).data('name').split(".");
+    //console.log("dataRepGroup: " + $(that).data('name'));
     dataRepGroup.push(maxCount);
     joinDataRepGroup = dataRepGroup.join(".");
+  
     newDataRepGroup = dataRepGroup.shift();
     if (dataRepGroup.length > 0) {
         for (drg in dataRepGroup) {
             newDataRepGroup += "[" + dataRepGroup[drg] + "]"
         }
     }
-
+  
     // console.log("dataRepGroup: " + newDataRepGroup + " " + joinDataRepGroup);
     // console.log(idClone);
     $clone = $(idClone).clone();
@@ -36,32 +41,54 @@ function gpCloneGroup(that) {
 }
     */
     
+    // Sostituisco i  {id} con i nome
+    $clone.find('*').each(function () {
+        if (typeof $(this).data('name') != "undefined") {
+            if ($(this).data('name').indexOf(nameReplace) > -1) {
+                //console.log("TODO namereplace > " + nameReplace + " => " + newDataRepGroup);
+                newName = $(this).data('name').replace(nameReplace, newDataRepGroup);
+                $(this).removeAttr('data-name');
+                $(this).attr('data-name', newName);
+                $(this).data('name', newName);
+            }
+        }
+    });
+
+
+
     $clone.find('*').each(function () {
         allData = $(this).data();
         for (dx in allData) {
            // console.log("DATA" + allData[dx]);
             if (allData[dx].substring(0, 1) == "#") {
-                console.log("NEW DATA (" + dx + ")" + "#gp" + maxCount + allData[dx].substring(1))
+                console.log("NEW DATA (" + dx + ")" + "#gp" + maxCount + allData[dx].substring(1));
+                $(this).removeAttr('data-' + dx);
+                $(this).attr('data-' + dx, "#gp" + maxCount + allData[dx].substring(1));
                 $(this).data(dx, "#gp" + maxCount + allData[dx].substring(1));
             }
         }
 
+      
         if ($(this).prop('name')) {
             var oldName = $(this).attr('name');
-            if (oldName.indexOf('[]') > -1) {
-                oldName2 = oldName.replace("[]", "");
-                $(this).prop('name', newDataRepGroup + "[" + oldName2 + "][]");
-            } else {
-                $(this).prop('name', newDataRepGroup + "[" + $(this).attr('name') + "]");
-            }
+            //console.log("OLD NAME: " + $(this).attr('name') + " nameReplace: " + nameReplace);
+            if ($(this).attr('name').indexOf(nameReplace) > -1) {
+                //console.log("TODO namereplace > " + nameReplace+" => "+ newDataRepGroup);
+                oldName = oldName.replace(nameReplace, newDataRepGroup);
+                $(this).prop('name', oldName );
+            } 
         }
+
         if ($(this).prop('id')) {
+          //  console.log("NEW ID " + "#gp" + maxCount + $(this).prop('id'));
             $(this).prop('id', "gp" + maxCount + $(this).prop('id'));
         }
         if ($(this).prop('for')) {
             $(this).prop('for', "gp" + maxCount + $(this).prop('for'));
         }
     })
+  
+
     // fix ion-icon error
     $clone.find('ion-icon').each(function() {
         $(this).removeClass('md').removeClass('hydrated');

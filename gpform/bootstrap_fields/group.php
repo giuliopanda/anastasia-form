@@ -24,8 +24,10 @@ function gpHtml_group($settings, $values) {
         if (isset($settings['name'])) {
             $tempHtml = array();
             $k = 0;
-            if (isset($values[$settings['name']])  && is_array($values[$settings['name']])) {
-                foreach ($values[$settings['name']] as $val) {
+            $currValue = gpHtmlUtilityFindValue($values, $settings['name']);
+            //var_dump ($currValue);
+            if ($currValue  != false) {
+                foreach ($currValue as $val) {
                     $customSettings = $settings;
                     $customSettings['name'] = $customSettings['name'].".".($k++);
                     if (!is_array($settings['repeatable'])) {
@@ -40,33 +42,41 @@ function gpHtml_group($settings, $values) {
             if (!is_array($settings['repeatable'])) {
                 $settings['repeatable'] = array($settings['repeatable']);
             }
-            // clone
-            $idRip = "ripeatebletemplate".uniqid();
-            $repeatableSettings = gpHtmlUtilityAttrSetting($settings['repeatable'], array('class'=>array("gphtml-repeatable gp-repeatablecloned gpjs-formignore"),'id'=>$idRip, 'style'=>"display:none;"));
-            $tempHtml[] = "<div ".gpHtmlGetAttrs(array(), $repeatableSettings).">";
-            $customSettingClone = $settings;
-            $addData = array();
-            if(isset($customSettingClone['preview-name'])) {
-                $addData[] = "data-previewname=\"". $customSettingClone['preview-name']."\"";
-                unset($customSettingClone['preview-name']);
+            // Il bottone clone
+            if (isset($settings['repeatable']['clone'])  && $settings['repeatable']['clone'] == "true") {
+                $idRip = "ripeatebletemplate".uniqid();
+                $repeatableSettings = gpHtmlUtilityAttrSetting($settings['repeatable'], array('class'=>array("gphtml-repeatable gp-repeatablecloned gpjs-formignore"),'id'=>$idRip, 'style'=>"display:none;"));
+                $tempHtml[] = "<div ".gpHtmlGetAttrs(array(), $repeatableSettings).">";
+                $customSettingClone = $settings;
+                $addData = array();
+                if(isset($customSettingClone['preview-name'])) {
+                     $addData[] = "data-previewname=\"".$settings['preview-name']."\"";
+                    if(isset($customSettingClone['name'])) {
+                        $customSettingClone['name'] = $customSettingClone['preview-name'].".".$customSettingClone['name'];
+                    } else {
+                       // $customSettingClone['name'] = $customSettingClone['preview-name'];
+                    }
+                    unset($customSettingClone['preview-name']);
+                }
+                if(isset($customSettingClone['name'])) {
+                    $addData[] = "data-name=\"".$customSettingClone['name']."\"";
+                    $customSettingClone['name'] = "{".$idRip."}";
+                }
+                $tempHtml[] = gpHtml_single_group ($customSettingClone, array(),  $formControlSettings);
+                $tempHtml[] = "</div>";
+                $tempHtml[] = "<div class=\"btn btn-info float-right\" data-clone=\"#".$idRip."\" data-idrip=\"".$idRip."\" data-box=\"#". $wrapSettings['id']."\" ".implode(" ", $addData)." onclick=\"gpCloneGroup(this)\">  <ion-icon name=\"add-circle\" class=\"ionicon-left\"></ion-icon> ADD NEW</div><div class=\"clearfix\"></div>";
             }
-            if(isset($customSettingClone['name'])) {
-                $addData[] = "data-name=\"".$customSettingClone['name']."\"";
-                unset($customSettingClone['name']);
-            }
-            $tempHtml[] = gpHtml_single_group ($customSettingClone, array(),  $formControlSettings);
-            $tempHtml[] = "</div>";
-            $tempHtml[] = "<div class=\"btn btn-info float-right\" data-clone=\"#".$idRip."\" data-box=\"#". $wrapSettings['id']."\" ".implode(" ", $addData)." onclick=\"gpCloneGroup(this)\">  <ion-icon name=\"add-circle\" class=\"ionicon-left\"></ion-icon> ADD NEW</div><div class=\"clearfix\"></div>";
             $html = implode("", $tempHtml);
         } else {
             //TODO ERRORE se non è impostato un nome in un gruppo ripetibile.
-            
+           $html = "<div class\"alert alert-danger\">Le impostazioni del gruppo ripetibile non sono corrette. È necessario aggiungere la proprietà 'name' al gruppo!</div>"; 
         }
     } else {
         if (isset($settings['name']) ) {
-            if (isset($values[$settings['name']]) && is_array($values[$settings['name']])) {
-                $values = $values[$settings['name']];
-            }   else {
+            $currValue = gpHtmlUtilityFindValue($values, $settings['name']);
+            if ( $currValue != false) {
+                $values = $currValue;
+            }  else {
                 $values = array();
             }
         }

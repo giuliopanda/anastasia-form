@@ -13,6 +13,76 @@
                 "type":"input",
                 "name":"name",
                 "label":"Nome"
+            },
+            {
+                "type": "group",
+                "title": "Nomi con il punto",
+                
+                "name": "my.params",
+                "layout": "",
+                "fields": [
+                    {
+                        "type": "input",
+                        "name": "name",
+                        "label": "Name",
+                        "required": "true"
+                    }
+                ]
+            },
+            {
+                "type": "group",
+                "title": "Gruppi di gruppi",
+                "repeatable": {
+                    "clone": "true"
+                },
+                "name": "users",
+                "layout": "",
+                "fields": [
+                    {
+                        "type": "input",
+                        "name": "name",
+                        "label": "Name",
+                        "required": "true"
+                    },
+                    {
+                        "type": "group",
+                        "title": "Sotto gruppi",
+                        "repeatable": {
+                            "clone": "true",
+                            "style": {
+                                "background": "#C2DFC9"
+                            }
+                        },
+                        "name": "params",
+                        "layout": "",
+                        "fields": [
+                            {
+                                "type": "input",
+                                "name": "group",
+                                "label": "group"
+                            },
+                            {
+                                "type": "checkbox",
+                                "name": "infoCheck",
+                                "label": "infoCheck",
+                                "options": [
+                                    {
+                                        "value": "1",
+                                        "label": "opzione 1"
+                                    },
+                                    {
+                                        "value": "2",
+                                        "label": "opzione 2"
+                                    },
+                                    {
+                                        "value": "3",
+                                        "label": "opzione 3"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
             }
         ]
     }

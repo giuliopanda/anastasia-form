@@ -12,7 +12,9 @@
             {
                 "type": "group",
                 "title":"gruppo utenti",
-                "repeatable": "true",
+                "repeatable": {
+                    "clone": "true"
+                },
                 "name":"users",
                 "layout": "",
                 "fields": [
@@ -33,7 +35,9 @@
             {
                 "type": "group",
                 "title": "gruppo opzioni",
-                "repeatable": "true",
+                "repeatable": {
+                    "clone":"true"
+                },
                 "name": "checkboxes",
                 "layout": "",
                 "fields": [
@@ -64,7 +68,9 @@
             {
                 "type": "group",
                 "title": "Radio",
-                "repeatable": "true",
+                "repeatable": {
+                    "clone": "true"
+                },
                 "name": "radios",
                 "layout": "",
                 "fields": [
@@ -95,7 +101,9 @@
             {
                 "type": "group",
                 "title": "Date",
-                "repeatable": "true",
+                "repeatable": {
+                    "clone": "true"
+                },
                 "name": "dd",
                 "layout": "",
                 "fields": [

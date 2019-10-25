@@ -293,20 +293,29 @@ function gpHtmlUtilityAttrSetting($settings, $add = false) {
         foreach ($add as $key=>$value) {
             if (!isset($settings[$key])) {
                 $settings[$key] = $value;
-            } else if (is_array($value) || is_array($settings[$key])) {
-                
+            } else if (is_array($value) || is_array($settings[$key])) { 
+               
                 if (!is_array($settings[$key])) {
-                    if (is_string($settings[$key])) {
                         $settings[$key] = array($settings[$key]);
-                    }
                 }
                 if (is_array($value) ) {
                     $settings[$key] = array_merge($settings[$key], $value);
                 } else {
-                    $settings[$key] = array_merge($settings[$key], array($value));
+                    if ($key == "style") {
+                        $newValue = array();
+                        $value = array_filter(explode(";", $value));
+                        foreach ($value as $vt) {
+                            $vtt = explode(":", $vt);
+                            $newValue[$vtt[0]] = $vtt[1];
+                        }
+                         $value =  $newValue;
+                        $settings[$key] = array_merge($settings[$key], $value);
+                    } else {
+                        $settings[$key] = array_merge($settings[$key], array($value));
+                    }
                    
                 }
-            }
+            } 
         }
     }
     if (isset($settings['name'])) {
@@ -332,3 +341,32 @@ function gpHtmlUtilityAttrSetting($settings, $add = false) {
     return $settings;
 }
 
+
+/**
+ * Trova il valore di un array multiplo dato un percorso con il punto
+ * esempio values : {"a":{"b":"ciao"}}  name = a.b 
+ */
+function gpHtmlUtilityFindValue($values, $name) {
+    if (!is_array($values) || !is_string($name) ) {
+        return false;
+    }
+    $names = explode(".", $name);
+    $currValues = $values;
+    if (count($names) > 0) {
+        foreach ($names as $n) {
+            if (isset($currValues[$n])) {
+                $currValues = $currValues[$n];
+            } else {
+                return false;
+            }
+        }
+        return $currValues;
+    } else {
+        if (isset($currValues[$name])) {
+            $currValues = $currValues[$name];
+        } else {
+            return false;
+        }
+    }
+    return false;
+}

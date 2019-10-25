@@ -63,7 +63,16 @@
             <?php
             $json = file_get_contents(dirname(__FILE__)."/json/namevalue03.json"); 
             $data = array("name"=>"Giulio");
-            $data['user'] =array("name"=>"Sofia");
+            $data['user'] =array("name"=>"Sofia"); // se è con il punto il parametro ?!
+            $data['users'] =array();
+            $data['my']['params']["name"] = "Andrea";
+            $data['users'][0]["name"] = "Anastasia";
+            $data['users'][0]['params'][0]["group"] = "dag 01";
+            $data['users'][0]['params'][0]["infoCheck"] = array(1,2);
+            $data['users'][0]['params'][1]["group"] = "dag 02";
+            $data['users'][0]['params'][1]["infoCheck"] = array(2);
+            $data['users'][1]["name"] = "Martina";
+            $data['users'][1]['params'][]["group"] = "dag 02";
             $dataForm = gpJsonDecode($json);
             ?>
             <div class="row">

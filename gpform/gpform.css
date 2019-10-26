@@ -59,6 +59,28 @@ label {font-weight: 500}
 }
 
 .gphtml-repeatable {    border: 1px solid #f0f2f5;
+    background:#FFF;
     border-left: 0.7rem solid #f0f2f5;
     padding: 1rem;
-    margin-bottom: -1px;}
+    margin-bottom: -1px;
+    -webkit-transition: border 0.10s;
+     transition: border 0.10s;
+
+}
+.gphtml-repeatable:hover { 
+    border-left: 0.7rem solid #007bff;
+}
+.gphtml-repeatable .btn-toolbar {
+    opacity:.1;
+    -webkit-transition: opacity 0.10s;
+    transition: opacity 0.10s;
+    margin-bottom: -.5rem;
+    margin-top: 0.8rem;
+    position: relative;
+    padding-top: .5rem;
+    border-top: 1px solid #888;
+}
+.gphtml-repeatable:hover .btn-toolbar {
+    opacity:.9;
+    border-top: 1px solid #f0f2f5;
+}

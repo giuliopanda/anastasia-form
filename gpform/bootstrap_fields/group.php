@@ -27,7 +27,7 @@ function gpHtml_group($settings, $values) {
             $currValue = gpHtmlUtilityFindValue($values, $settings['name']);
             //var_dump ($currValue);
             if ($currValue  != false) {
-                foreach ($currValue as $val) {
+                foreach ($currValue as $key=>$val) {
                     $customSettings = $settings;
                     $customSettings['name'] = $customSettings['name'].".".($k++);
                     if (!is_array($settings['repeatable'])) {
@@ -35,7 +35,22 @@ function gpHtml_group($settings, $values) {
                     }
                     $repeatableSettings = gpHtmlUtilityAttrSetting($settings['repeatable'], array('class'=>array("gphtml-repeatable gpjs-repeatable"), 'data-repgroup'=>$customSettings['name']));
                     $tempHtml[] = "<div ".gpHtmlGetAttrs(array(), $repeatableSettings).">";
+                    // Aggiungo un campo __sortable per gestire l'ordinamento
+                    if (isset($settings['repeatable']['sortable'])  && $settings['repeatable']['sortable'] == "true") {
+                        $customSettings['fields'][] = array("type"=>"hidden", "name"=>"__sortable", "label"=>"", "default"=>$key, "class"=>"gpjs-sortable-input");
+                    }
                     $tempHtml[] = gpHtml_single_group ($customSettings, $val,  $formControlSettings);
+                    // btn-toolbar
+                    if ((isset($settings['repeatable']['delete'])  && $settings['repeatable']['delete'] == "true") || (isset($settings['repeatable']['sortable'])  && $settings['repeatable']['sortable'] == "true" )) {
+                        $tempHtml[] = '<div class="btn-toolbar flex-row-reverse">';
+                        if (isset($settings['repeatable']['delete'])  && $settings['repeatable']['delete'] == "true") {
+                            $tempHtml[] ='<button type="button" class="btn btn-outline-danger btn-sm" onClick="trashGroup(this)"><ion-icon name="md-trash" class="ionicon-left"></ion-icon> Elimina</button> ';
+                        }
+                        if (isset($settings['repeatable']['sortable'])  && $settings['repeatable']['sortable'] == "true") {
+                            $tempHtml[] =' <div class="btn btn-outline-primary gpjs-handle btn-sm mr-1"><ion-icon name="md-move" class="ionicon-left"></ion-icon> Sposta</div>';
+                        }
+                        $tempHtml[] =' </div>';
+                    }
                     $tempHtml[] = "</div>";
                 }
             }
@@ -62,11 +77,33 @@ function gpHtml_group($settings, $values) {
                     $addData[] = "data-name=\"".$customSettingClone['name']."\"";
                     $customSettingClone['name'] = "{".$idRip."}";
                 }
+                if (isset($settings['repeatable']['sortable'])  && $settings['repeatable']['sortable'] == "true") {
+                    $customSettingClone['fields'][] = array("type"=>"hidden", "name"=>"__sortable", "label"=>"",  "class"=>"gpjs-sortable-input");
+                }
                 $tempHtml[] = gpHtml_single_group ($customSettingClone, array(),  $formControlSettings);
+                // btn-toolbar
+                if ((isset($settings['repeatable']['delete'])  && $settings['repeatable']['delete'] == "true") || (isset($settings['repeatable']['sortable'])  && $settings['repeatable']['sortable'] == "true" )) {
+                    $tempHtml[] = '<div class="btn-toolbar flex-row-reverse">';
+                    if (isset($settings['repeatable']['delete'])  && $settings['repeatable']['delete'] == "true") {
+                        $tempHtml[] ='<button type="button" class="btn btn-outline-danger btn-sm" onClick="trashGroup(this)"><ion-icon name="md-trash" class="ionicon-left"></ion-icon> Elimina</button> ';
+                    }
+                    if (isset($settings['repeatable']['sortable'])  && $settings['repeatable']['sortable'] == "true") {
+                        $tempHtml[] =' <div class="btn btn-outline-primary gpjs-handle btn-sm mr-1"><ion-icon name="md-move" class="ionicon-left"></ion-icon> Sposta</div>';
+                    }
+                    $tempHtml[] =' </div>';
+                }
                 $tempHtml[] = "</div>";
+
+
                 $tempHtml[] = "<div class=\"btn btn-info float-right\" data-clone=\"#".$idRip."\" data-idrip=\"".$idRip."\" data-box=\"#". $wrapSettings['id']."\" ".implode(" ", $addData)." onclick=\"gpCloneGroup(this)\">  <ion-icon name=\"add-circle\" class=\"ionicon-left\"></ion-icon> ADD NEW</div><div class=\"clearfix\"></div>";
             }
             $html = implode("", $tempHtml);
+
+            // SORTABLE
+            if (isset($settings['repeatable']['sortable'])  && $settings['repeatable']['sortable'] == "true") {
+                $html ='<div data-gphtmlinit="gphtmlInitSortable">'.$html.'</div>';
+            }
+            
         } else {
             //TODO ERRORE se non è impostato un nome in un gruppo ripetibile.
            $html = "<div class\"alert alert-danger\">Le impostazioni del gruppo ripetibile non sono corrette. È necessario aggiungere la proprietà 'name' al gruppo!</div>"; 

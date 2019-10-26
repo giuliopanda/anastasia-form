@@ -1,9 +1,12 @@
-GENERARE FORM IN AUTOMATICO
+PHP BUILD BOOTSTRAP FORM
 ==========================
 
-Questa serie di funzioni php servono per generare un form a partire da un array (o un json).
+**Attualmente il lavoro è in sviluppo, non è ad una versione stabile.**
 
-Il form viene renderizzato con i css di bootstrap, mentre il javascript si poggia su jquery e jquery ui.
+
+Questa serie di funzioni php permettono di generare un form a partire da un array (o un json).
+
+Il form usa stili e sintassi di bootstrap 4, mentre per il javascript jquery e jquery ui.
 
 Il progetto prevede l'implementazione di tutta una serie di dinamiche javascript per la gestione di un form quali i campi ripetuti, una gestione avanzata dei checkbox e dei select, le date con particolare attenzione al sistema di validazione che partendo da bootstrap ne implementa una versione più completa.
 

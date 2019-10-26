@@ -95,8 +95,9 @@ function gpCloneGroup(that) {
         $(this).after($("<ion-icon name=" + $(this).attr('name') + " class=" + $(this).attr('class') +"></ion-icon>"));
         $(this).remove();
     });
-    
+    $clone.css('display', 'none');
     $(idClone).before($clone);
+    $clone.slideDown('fast') 
     $clone.css('display', 'block');
     $clone.removeAttr('id');
     $clone.addClass('gpjs-repeatable');
@@ -131,6 +132,47 @@ function gpCloneGroup(that) {
             return false;
         }
     })
+    // sortable
+    var gpK = 0;
+    console.log ("SORTABLE UPDATE");
+    console.log(box);
+    $(box).find('.gpjs-sortable-input').each(function () {
+        $(this).val(gpK);
+        gpK++;
+    })
+
     gpHtmlInit($clone.get());
 
+}
+
+function gphtmlInitSortable(element) {
+    $(element).sortable({
+        handle: ".gpjs-handle",
+        stop: function (event, ui) { 
+            var sortableBox = ui.item.parent();
+            var gpK = 0;
+            $(sortableBox).find('.gpjs-sortable-input').each(function() {
+                $(this).val(gpK);
+                gpK++;
+            })
+        }
+    });
+    $(element).disableSelection();
+}
+
+
+
+function trashGroup(that) {
+    $that = $(that);
+    var countWhile = 0;
+    while (!$that.hasClass('gpjs-repeatable') && countWhile < 5) {
+        //console.log ($that);
+        $that = $that.parent();
+        countWhile++;
+    }
+    if ($that.hasClass('gpjs-repeatable')) {
+        $that.slideUp('fast', function() {
+            $(this).remove();
+        }) 
+    }
 }

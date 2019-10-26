@@ -18,6 +18,8 @@
                 <li><b>repeatable</b>: Se impostato permette di ripetere il gruppo di opzioni. I valori passsati con il data hanno come key il name ipostato sul gruppo.
                     <ul>
                         <li><b>clone</b>: "true" se è possibile aggiungere nuovi gruppi</li>
+                        <li><b>sortable</b>: "true" se è possibile ordinare i gruppi</li>
+                         <li><b>delete</b>: "true" se è possibile eliminare i gruppi</li>
                         <li><b>class, style, id etc...</b>: I parametri vengono aggiunti al div che contiene un singolo gruppo di ripetizione.</li>
                     </ul>
                 </li>

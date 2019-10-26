@@ -13,7 +13,8 @@
                 "type": "group",
                 "title":"gruppo utenti",
                 "repeatable": {
-                    "clone": "true"
+                    "clone": "true",
+                    "delete": "true"
                 },
                 "name":"users",
                 "layout": "",
@@ -36,7 +37,8 @@
                 "type": "group",
                 "title": "gruppo opzioni",
                 "repeatable": {
-                    "clone":"true"
+                    "delete": "true",
+                    "sortable": "true"
                 },
                 "name": "checkboxes",
                 "layout": "",
@@ -69,7 +71,9 @@
                 "type": "group",
                 "title": "Radio",
                 "repeatable": {
-                    "clone": "true"
+                    "clone": "true",
+                    "delete": "true",
+                    "sortable": "true"
                 },
                 "name": "radios",
                 "layout": "",
@@ -102,7 +106,9 @@
                 "type": "group",
                 "title": "Date",
                 "repeatable": {
-                    "clone": "true"
+                    "clone": "true",
+                    "delete": "true",
+                    "sortable": "true"
                 },
                 "name": "dd",
                 "layout": "",

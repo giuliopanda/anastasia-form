@@ -1,5 +1,3 @@
-
-
 function gphtmlInitDatePickerui(div) {
     $(div).removeClass('hasDatepicker');
     $(div).datepicker("destroy"); // ?!

@@ -134,8 +134,6 @@ function gpCloneGroup(that) {
     })
     // sortable
     var gpK = 0;
-    console.log ("SORTABLE UPDATE");
-    console.log(box);
     $(box).find('.gpjs-sortable-input').each(function () {
         $(this).val(gpK);
         gpK++;

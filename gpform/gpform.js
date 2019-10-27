@@ -120,7 +120,6 @@ function gpUtilityFindblockField(that) {
 
 function gpHtmlInit(element) {
     $(element).each(function () {
-        console.log( "NEED!");
         $(this).find("*").each(function () {
             if ($(this).attr('gp-validation')) {
                 if ($(this).is("input") || $(this).is("textarea")) {

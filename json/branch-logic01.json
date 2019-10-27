@@ -1,0 +1,71 @@
+{
+    "form": {
+        "render": "",
+        "method": "get",
+        "id": "myForm3",
+        "default-wrap": {
+            "type": "group"
+        },
+        "fields": [
+            {
+                "type": "group",
+                "title": "Branching Logic",
+                "footer":"<hr>",
+                "layout": "horizontal_form",
+                "fields": [
+                    {
+                        "type": "input",
+                        "name": "val1",
+                        "label": "$val1"
+                    },
+                    {
+                        "type": "input",
+                        "name": "val2",
+                        "label": "$val2"
+                    },
+                    {
+                        "type": "checkbox",
+                        "name": "val3",
+                        "label": "$val3",
+                        "elements-layout": "inline",
+                        "options": [
+                            {
+                                "value": "1",
+                                "label": "opzione 1"
+                            },
+                            {
+                                "value": "2",
+                                "label": "opzione 2"
+                            },
+                            {
+                                "value": "3",
+                                "label": "opzione 3"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "type": "textarea",
+                "name": "bl",
+                "id": "bl",
+                "label": "branch logic",
+                "required": "true"
+            },
+            {
+                "type": "button",
+                "text": "esegui",
+                "onclick":"gpexecuteBl()"
+            },
+            {
+                "type": "input",
+                "name": "res",
+                "id":"res",
+                "label": "Risposta",
+                "required": "true"
+            }
+            
+            
+        ]
+    }
+}

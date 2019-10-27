@@ -12,7 +12,7 @@
         <div class="container">
             <h2>Ripetizione dei campi</h2>
             <p></p>
-            <h3>Parametri IN LAVORAZIONE</h3>
+            <h3>Parametri</h3>
             <ul>
                 <li><b>name</b>: Se impostato tutti i campi del gruppo hanno il name come prefisso. Serve anche per estrarre i dati da un sottoinsieme</li>
                 <li><b>repeatable</b>: Se impostato permette di ripetere il gruppo di opzioni. I valori passsati con il data hanno come key il name ipostato sul gruppo.
@@ -23,9 +23,6 @@
                         <li><b>class, style, id etc...</b>: I parametri vengono aggiunti al div che contiene un singolo gruppo di ripetizione.</li>
                     </ul>
                 </li>
-               <li>TODO: delete</li>
-               <li>TODO: clone</li>
-               <li>TODO: ordina</li>
                <li>TODO: numero di gruppi vuoti quando si carica il form senza dati</li>
                <li>TODO: numero di gruppi vuoti quando si carica il form con dati già inseriti</li>
             </ul>
